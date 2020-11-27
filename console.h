@@ -1,28 +1,35 @@
 #pragma once
 #include "windows.h"
+#include <vector>
 #include <string>
 
 class Console
 {
-    const int CONSOLE_WIDTH = 60,
-              CONSOLE_HEIGHT = 120,
-              MAP_WIDTH = 30,
-              MAP_HEIGHT = 30,
-              SCREEN_WIDTH = 1240,
-              SCREEN_HEIGHT = 600;
+public:
+    const int CONSOLE_WIDTH = 150,
+              CONSOLE_HEIGHT = 41,
+              MAP_WIDTH = 92,
+              MAP_HEIGHT = 36,
+              SCREEN_WIDTH = 1218,
+              SCREEN_HEIGHT = 700;
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
-    std::string map = "";
-
+    std::string MAP = "";
+//1 2 2
     void SetupConsole();
-    void DrawMap();
+    void InitMap();
 
 public:
-    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT];
-
     Console();
+    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+    void ShowConsoleCursor(bool showFlag);
 
-    void write();
+    void PutMapInScreen();
+    void CleanScreen();
+    void OutScreen();
+
+    void UpdateScreen(const int &x, const int &y, std::vector<std::string> &V);
+    void UpdateScreen(const int &x, const int &y, const std::string &ST);
 
     ~Console();
 };

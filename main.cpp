@@ -1,6 +1,20 @@
 #include "all.h"
 #include <iostream>
-#include "console.h"
+#include <utility>
+#include "game.cpp"
 int main()
 {
+    Game G;
+    G.Init();
+    while (1)
+    {
+        if (!G.started)
+            G.WelcomeScreen();
+        else
+        {
+            G.PutMapInScreen();
+
+            G.OutScreen();
+        }
+    }
 }
