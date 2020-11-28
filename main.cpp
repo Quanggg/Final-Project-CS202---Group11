@@ -12,7 +12,7 @@ void Vehicle()
 {
     while (1)
     {
-        if (G.started)
+        if (G.isPlaying)
         {
             for (auto i : cV.list)
                 G.UpdateScreen(i->x, i->y, i->st);
@@ -21,17 +21,17 @@ void Vehicle()
 }
 int main()
 {
-    //std::thread t1(Vehicle);
+    std::thread t1(Vehicle);
     G.Init();
     while (1)
     {
-        if (!G.started)
+        if (!G.isPlaying)
             G.WelcomeScreen();
-        if (G.started)
+        else
         {
             G.PutMapInScreen();
         }
         G.OutScreen();
     }
-    //t1.join();
+    t1.join();
 }

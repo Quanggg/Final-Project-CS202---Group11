@@ -8,7 +8,7 @@ private:
     void InitString();
 
 public:
-    int started = 0;
+    int isPlaying = 0;
     Game();
     void Init();
     void Start();

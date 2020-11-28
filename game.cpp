@@ -14,7 +14,7 @@ void Game::Init()
     //draw welcome at the center
     UpdateScreen(53, 25, WELCOME);
 
-    //teammates
+    //draw teammates info
     UpdateScreen(70, CONSOLE_HEIGHT - 1, "19-APCS-1   GROUP 11:  QUANG LE      HUY NGUYEN      HUY PHAN      THANG NGUYEN");
 }
 void Game::Start()
@@ -38,8 +38,8 @@ void Game::InitString()
 
 void Game::WelcomeScreen()
 {
-    if (!started && (GetAsyncKeyState((unsigned short)'0') & 0x8000))
+    if (!isPlaying && (GetAsyncKeyState((unsigned short)'0') & 0x8000))
         exit(0);
-    if (!started && (GetAsyncKeyState((unsigned short)'1') & 0x8000))
-        started = 1, CleanScreen();
+    if (!isPlaying && (GetAsyncKeyState((unsigned short)'1') & 0x8000))
+        isPlaying = 1, CleanScreen();
 }
