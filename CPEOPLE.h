@@ -4,11 +4,16 @@
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
+#include <vector>
+#include <string>
 
 using namespace std;
 
 class CPEOPLE
 {
+private:
+	vector<string> Player;
+	void InitString();
 public:
 	int mX, mY;
 	//bool mState;
