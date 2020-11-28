@@ -15,7 +15,7 @@ public:
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
     std::string MAP = "";
-//1 2 2
+    //1 2 2
     void SetupConsole();
     void InitMap();
 
