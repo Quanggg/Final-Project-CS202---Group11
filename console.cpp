@@ -3,30 +3,35 @@
 //#include <cwchar>
 Console::Console()
 {
-    InitMap();
-    SetupConsole();
+    Console::InitMap();
+    Console::SetupConsole();
 }
 Console::~Console()
 {
     delete[] screen;
 }
 
-void Console::UpdateScreen(const int &x, const int &y, std::vector<std::string> &V)
+void Console::UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V)
 {
     for (int i = 0; i < V.size(); i++)
         strcpy(screen + (y + i) * CONSOLE_WIDTH + x, (char *&)V[i]);
 }
-void Console::UpdateScreen(const int &x, const int &y, const std::string &ST)
+void Console::UpdateScreenOutput(const int &x, const int &y, const std::string &ST)
 {
     strcpy(screen + y * CONSOLE_WIDTH + x, (char *&)ST);
 }
+void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V)
+{
+    for (int i = 0; i < V.size(); i++)
+        strcpy(screen + (pos._y + i) * CONSOLE_WIDTH + pos._x, (char *&)V[i]);
+}
 
-void Console::CleanScreen()
+void Console::CleanScreenOutput()
 {
     for (int i = 0; i < CONSOLE_WIDTH * CONSOLE_HEIGHT; i++)
         screen[i] = ' ';
 }
-void Console::OutScreen()
+void Console::PrintOutScreen()
 {
     screen[CONSOLE_WIDTH * CONSOLE_HEIGHT] = '\0';
 
@@ -72,23 +77,23 @@ void Console::InitMap()
     MAP += "|                                                                                          |";
     MAP += "|__________________________________________________________________________________________|";
 }
-void Console::PutMapInScreen()
+void Console::PutMapInScreenOutput()
 {
-    int S = 2 * CONSOLE_WIDTH + 5;
+    int StartLocation = 2 * CONSOLE_WIDTH + 5;
     for (int i = 0; i < MAP_HEIGHT; i++)
         for (int j = 0; j < MAP_WIDTH; j++)
-            screen[S + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
+            screen[StartLocation + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
 }
 
 void Console::SetupConsole()
 {
-    CleanScreen();
+    Console::CleanScreenOutput();
     SetConsoleActiveScreenBuffer(hConsole);
 
     //Set console to fixed size
     HWND consoleWindow = GetConsoleWindow();
     LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
-    //style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
+    style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
     SetWindowLong(consoleWindow, GWL_STYLE, style);
 
     RECT desktop;
@@ -113,7 +118,7 @@ void Console::SetupConsole()
     MoveWindow(consoleWindow, (desktop.right - SCREEN_WIDTH) / 2, (desktop.bottom - SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, TRUE);
 
     //Hide Cursor
-    ShowConsoleCursor(false);
+    Console::ShowConsoleCursor(false);
 }
 
 void Console::ShowConsoleCursor(bool showFlag)
