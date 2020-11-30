@@ -6,7 +6,8 @@
 class Player
 {
 private:
-    float _Speed = 50.0f, _Distance;
+    const int DIVIDE_CONSTANT = 400000;
+    float _Distance, _DistanceSum;
     void InitString()
     {
         _STRING.assign(3, "");
@@ -16,19 +17,19 @@ private:
     }
     void Up()
     {
-        _Pos.SetY(-round(_Distance));
+        _Pos.SetY(-floor(_Distance));
     }
     void Left()
     {
-        _Pos.SetX(-round(_Distance));
+        _Pos.SetX(-floor(_Distance));
     }
     void Right()
     {
-        _Pos.SetX(round(_Distance));
+        _Pos.SetX(floor(_Distance));
     }
     void Down()
     {
-        _Pos.SetY(round(_Distance));
+        _Pos.SetY(floor(_Distance));
     }
 
 public:
@@ -39,9 +40,10 @@ public:
         Player::InitString();
     }
 
-    void InputFromKeyboard(float ElapsedTime)
+    void InputFromKeyboard(const int &ElapsedTime)
     {
-        _Distance = _Speed * ElapsedTime;
+        _DistanceSum = 1.0 * ElapsedTime / DIVIDE_CONSTANT;
+        _Distance += _DistanceSum;
 
         if ((GetAsyncKeyState((unsigned short)'A') & 0x8000))
         {
@@ -59,5 +61,7 @@ public:
         {
             Player::Down();
         }
+        if (_Distance > 1)
+            _Distance = 0;
     }
 };

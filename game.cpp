@@ -28,7 +28,7 @@ void Game::InitPlayer()
 {
     _Player._Pos._x = MAP_LOCATION._x + MAP_WIDTH / 2 - 1;
     _Player._Pos._y = MAP_LOCATION._y + MAP_HEIGHT - 3;
-    _Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 1, MAP_LOCATION._y + MAP_HEIGHT - 1);
+    _Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 3, MAP_LOCATION._y + MAP_HEIGHT - 3);
     _Player._Pos.SetMin(MAP_LOCATION._x + 1, MAP_LOCATION._y + 1);
 }
 void Game::InitString()

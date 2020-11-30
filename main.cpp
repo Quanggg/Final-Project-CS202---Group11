@@ -22,46 +22,25 @@ void Vehicle()
 }
 int main()
 {
-    LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds;
+    LARGE_INTEGER time1, time2, timeInterval;
     LARGE_INTEGER Frequency;
-
-    QueryPerformanceFrequency(&Frequency);
-    QueryPerformanceCounter(&StartingTime);
-
-    // Activity to be timed
-
-    QueryPerformanceCounter(&EndingTime);
-    ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
-
-    //
-    // We now have the elapsed number of ticks, along with the
-    // number of ticks-per-second. We use these values
-    // to convert to the number of elapsed microseconds.
-    // To guard against loss-of-precision, we convert
-    // to microseconds *before* dividing by ticks-per-second.
-    //
-
-    ElapsedMicroseconds.QuadPart *= 1000000;
-    ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
-    std::thread t1(Vehicle);
+    //std::thread t1(Vehicle);
     G.InitGame();
-    auto tp1 = std::chrono::system_clock::now();
-    auto tp2 = std::chrono::system_clock::now();
     while (1)
     {
-        tp2 = std::chrono::system_clock::now();
-        std::chrono::duration<float> elapsedTime = tp2 - tp1;
-        tp1 = tp2;
-        float fElapsedTime = elapsedTime.count();
+        QueryPerformanceFrequency(&Frequency);
+        QueryPerformanceCounter(&time1);
+        timeInterval.QuadPart = time1.QuadPart - time2.QuadPart;
+        time2 = time1;
         if (!G._isPlaying)
             G.isInWelcomeScreen();
         else
         {
             G.PutMapInScreenOutput();
-            G._Player.InputFromKeyboard(fElapsedTime);
+            G._Player.InputFromKeyboard(timeInterval.QuadPart);
             G.UpdateScreenOutput(G._Player._Pos._x, G._Player._Pos._y, G._Player._STRING);
         }
         G.PrintOutScreen();
     }
-    t1.join();
+    //t1.join();
 }

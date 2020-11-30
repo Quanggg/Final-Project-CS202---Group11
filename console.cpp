@@ -90,16 +90,20 @@ void Console::SetupConsole()
     Console::CleanScreenOutput();
     SetConsoleActiveScreenBuffer(hConsole);
 
-    //Set console to fixed size
     HWND consoleWindow = GetConsoleWindow();
-    LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
-    style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
-    SetWindowLong(consoleWindow, GWL_STYLE, style);
 
     RECT desktop;
     const HWND hDesktop = GetDesktopWindow(); // Get a handle to the desktop window
     GetWindowRect(hDesktop, &desktop);        // Get the size of screen to the variable desktop
+
     // Screen resolution = desktop.right x desktop.bottom
+    // Set console to center of the screen
+    MoveWindow(consoleWindow, (desktop.right - SCREEN_WIDTH) / 2, (desktop.bottom - SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, TRUE);
+
+    //Set console to fixed size
+    LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
+    style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
+    SetWindowLong(consoleWindow, GWL_STYLE, style);
 
     //Change console font 16 and font is Consolas
     /*
@@ -113,9 +117,6 @@ void Console::SetupConsole()
     std::wcscpy(cfi.FaceName, L"Consolas"); // Choose your font
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
     */
-
-    // Set console to center of the screen
-    MoveWindow(consoleWindow, (desktop.right - SCREEN_WIDTH) / 2, (desktop.bottom - SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, TRUE);
 
     //Hide Cursor
     Console::ShowConsoleCursor(false);
