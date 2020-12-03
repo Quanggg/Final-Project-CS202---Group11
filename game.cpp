@@ -78,6 +78,8 @@ void Game::WelcomeScreen()
 	if (!started && (GetAsyncKeyState((unsigned short)'2') & 0x8000))
         if(!loadGameMenu())
 			Init();
+	if (!started && (GetAsyncKeyState((unsigned short)'4') & 0x8000))
+		saveGameMenu();
 }
 
 std::vector<std::string> Game::getFilename(const std::string& name)
@@ -184,18 +186,17 @@ void Game::saveGameMenu() { // get file of cMap ma
 	std::string filename;
 	CleanScreen();
 	
-	UpdateScreen(15, 5, SAVEMENU);
-	UpdateScreen(15, 20, "<Press ESC to escape...>");
+	UpdateScreen(36, 5, SAVEMENU);
+	UpdateScreen(36, 20, "<Press ESC to escape...>");
 
-	UpdateScreen(15, 15, "Input file name to save: ");
-
+	UpdateScreen(36, 15, "Input file name to save: ");
 	char key;
 	while ((key = _getch()) != 27) {
 		switch (key) {
 		case '\b':
 			if (filename.size() != 0) {
 				filename.pop_back();
-				UpdateScreen(50, 15, "                                                 " + filename);
+				UpdateScreen(61, 15, filename);
 				OutScreen();
 			}
 			break;
@@ -204,7 +205,7 @@ void Game::saveGameMenu() { // get file of cMap ma
 			break;
 		default:
 			filename.push_back(key);
-			UpdateScreen(50, 15, filename);
+			UpdateScreen(61, 15, filename);
 			OutScreen();
 		}
 		if (key == 13) break;
