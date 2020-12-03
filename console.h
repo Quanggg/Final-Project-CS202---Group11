@@ -1,29 +1,27 @@
 #pragma once
-#include "windows.h"
-#include <vector>
-#include <string>
-#include "coordinate.h"
+#include "all.h"
 
 class Console
 {
 public:
-    const int CONSOLE_WIDTH = 150,
-              CONSOLE_HEIGHT = 41,
-              MAP_WIDTH = 92,
-              MAP_HEIGHT = 36,
-              SCREEN_WIDTH = 1218,
-              SCREEN_HEIGHT = 700;
+    static const int CONSOLE_WIDTH = 150,
+                     CONSOLE_HEIGHT = 41,
+                     MAP_WIDTH = 92,
+                     MAP_HEIGHT = 36,
+                     SCREEN_WIDTH = 1218,
+                     SCREEN_HEIGHT = 700;
     const Coordinate MAP_LOCATION = {5, 2};
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
     std::string MAP = "";
-    //1 2 2
     void SetupConsole();
     void InitMap();
+    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
 
 public:
     Console();
-    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+    ~Console();
+
     void ShowConsoleCursor(bool showFlag);
 
     void PutMapInScreenOutput();
@@ -33,6 +31,4 @@ public:
     void UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V);
     void UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V);
     void UpdateScreenOutput(const int &x, const int &y, const std::string &ST);
-
-    ~Console();
 };

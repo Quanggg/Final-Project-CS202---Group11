@@ -1,10 +1,6 @@
 #include "all.h"
 #include <iostream>
 #include "game.cpp"
-#include "player.h"
-#include <thread>
-#include <deque>
-#include <chrono>
 
 Game G;
 
@@ -25,7 +21,9 @@ int main()
         {
             G.PutMapInScreenOutput();
             G._Vehicle.Move(G.ElapsedTime);
-            for (auto i : G._Vehicle._Lane)
+            for (auto i : G._Vehicle._CarLane)
+                G.UpdateScreenOutput(i->_Pos, i->_STRING);
+            for (auto i : G._Vehicle._TruckLane)
                 G.UpdateScreenOutput(i->_Pos, i->_STRING);
             G._Player.InputFromKeyboard(G.ElapsedTime);
             G.UpdateScreenOutput(G._Player._Pos._x, G._Player._Pos._y, G._Player._STRING);
