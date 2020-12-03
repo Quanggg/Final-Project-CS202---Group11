@@ -1,6 +1,7 @@
 #pragma once
 #include "console.cpp"
 #include "player.h"
+#include "vehicle.h"
 
 class Game : public Console
 {
@@ -10,8 +11,10 @@ private:
     void InitPlayer();
 
 public:
+    int ElapsedTime;
     int _isPlaying = 0;
     Player _Player;
+    Vehicle _Vehicle;
     Game();
     void InitGame();
     void Start();
