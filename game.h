@@ -3,8 +3,13 @@
 
 class Game : public Console
 {
-private:
+public:
     std::vector<std::string> WELCOME, GAMENAME, LOADMENU, SAVEMENU, INFO;
+    std::vector<std::string> NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9;
+    std::vector<std::vector<std::string>> NUM;
+
+    const Coordinate INFO_LOCATION = {100, 10};
+
     void InitString();
     bool isLoaded = false;
     void InitPlayer();

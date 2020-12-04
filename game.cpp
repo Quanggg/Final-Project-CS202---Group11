@@ -61,19 +61,83 @@ void Game::InitString()
 	WELCOME[0] = "____________________WELCOME!___________________";
 	WELCOME[1] = "";
 	WELCOME[2] = "                1.  New game";
-	WELCOME[3] = "                2.  Load game";
+	WELCOME[3] = "                2.    Load";
 	WELCOME[4] = "                3.  Settings";
 	WELCOME[5] = "                0.    Exit";
 	WELCOME[6] = "               ---------------";
 
-	INFO.assign(7, "");
-	INFO[0] = "_______________________________________";
-	INFO[1] = "                LEVEL 01";
-	INFO[2] = "";
-	INFO[3] = "";
-	INFO[4] = "";
-	INFO[5] = "";
-	INFO[6] = "";
+	NUM0.assign(3, "");
+	NUM0[0] = " __";
+	NUM0[1] = "|  |";
+	NUM0[2] = "|__|";
+	NUM.push_back(NUM0);
+
+	NUM1.assign(3, "");
+	NUM1[0] = "";
+	NUM1[1] = "   |";
+	NUM1[2] = "   |";
+	NUM.push_back(NUM1);
+
+	NUM2.assign(3, "");
+	NUM2[0] = " __";
+	NUM2[1] = " __|";
+	NUM2[2] = "|__";
+	NUM.push_back(NUM2);
+
+	NUM3.assign(3, "");
+	NUM3[0] = " __";
+	NUM3[1] = " __|";
+	NUM3[2] = " __|";
+	NUM.push_back(NUM3);
+
+	NUM4.assign(3, "");
+	NUM4[0] = "";
+	NUM4[1] = "|__|";
+	NUM4[2] = "   |";
+	NUM.push_back(NUM4);
+
+	NUM5.assign(3, "");
+	NUM5[0] = " __";
+	NUM5[1] = "|__";
+	NUM5[2] = " __|";
+	NUM.push_back(NUM5);
+
+	NUM6.assign(3, "");
+	NUM6[0] = " __";
+	NUM6[1] = "|__";
+	NUM6[2] = "|__|";
+	NUM.push_back(NUM6);
+
+	NUM7.assign(3, "");
+	NUM7[0] = " __";
+	NUM7[1] = "   |";
+	NUM7[2] = "   |";
+	NUM.push_back(NUM7);
+
+	NUM8.assign(3, "");
+	NUM8[0] = " __";
+	NUM8[1] = "|__|";
+	NUM8[2] = "|__|";
+	NUM.push_back(NUM8);
+
+	NUM9.assign(3, "");
+	NUM9[0] = " __";
+	NUM9[1] = "|__|";
+	NUM9[2] = " __|";
+	NUM.push_back(NUM9);
+
+	INFO.assign(11, "");
+	INFO[0] = " _________________________________________";
+	INFO[1] = "|           __     __       __            |";
+	INFO[2] = "|       |  |__\\  /|__|     |  |   |       |";
+	INFO[3] = "|       |__|__ \\/ |__|__   |__|   |       |";
+	INFO[4] = "|                                         |";
+	INFO[5] = "|              1.   New game              |";
+	INFO[6] = "|              2.     Load                |";
+	INFO[7] = "|              3.   Settings              |";
+	INFO[8] = "|              4.     Save                |";
+	INFO[9] = "|              0.     Exit                |";
+	INFO[10] = "|_________________________________________|";
 
 	GAMENAME.assign(11, "");
 	GAMENAME[0] = "      _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|  _|      _|  _|_|_|_|";
