@@ -1,37 +1,31 @@
 #include "all.h"
 #include <iostream>
-#include <utility>
 #include "game.cpp"
-#include "people.h"
-#include <thread>
-#include <deque>
 
 Game G;
-controlVehicle cV;
-void Vehicle()
-{
-    while (1)
-    {
-        if (G.started)
-        {
-            for (auto i : cV.list)
-                G.UpdateScreen(i->x, i->y, i->st);
-        }
-    }
-}
+
 int main()
 {
-    //std::thread t1(Vehicle);
-    G.Init();
+    LARGE_INTEGER time1, time2, timeInterval;
+    LARGE_INTEGER Frequency;
+    G.InitGame();
     while (1)
     {
-        if (!G.started)
-            G.WelcomeScreen();
-        if (G.started)
+        QueryPerformanceFrequency(&Frequency);
+        QueryPerformanceCounter(&time1);
+        G.ElapsedTime = time1.QuadPart - time2.QuadPart;
+        time2 = time1;
+        if (!G._isPlaying)
+            G.isInWelcomeScreen();
+        else
         {
-            G.PutMapInScreen();
+            G.PutMapInScreenOutput();
+
+            G.MoveObj();
+
+            G._Player.InputFromKeyboard(G.ElapsedTime);
+            G.UpdateScreenOutput(G._Player._Pos, G._Player._STRING, false, true);
         }
-        G.OutScreen();
+        G.PrintOutScreen();
     }
-    //t1.join();
 }

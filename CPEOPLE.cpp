@@ -1,5 +1,5 @@
 #include "CPEOPLE.h"
-#include <conio.h>
+//#include <conio.h>
 #include "console.h"
 
 //void goToXY(int x, int y)
@@ -51,16 +51,20 @@ void CGAME::Input()
 		if (current == 's' && Player->mY < 10 - 1)
 			Player->Down();
 	}*/
-	if ((GetKeyState('A') & 0x8000)) {
+	if ((GetKeyState('A') & 0x8000))
+	{
 		Player->Left();
 	}
-	if ((GetKeyState('D') & 0x8000)) {
+	if ((GetKeyState('D') & 0x8000))
+	{
 		Player->Right();
 	}
-	if ((GetKeyState('W') & 0x8000)) {
+	if ((GetKeyState('W') & 0x8000))
+	{
 		Player->Up();
 	}
-	if ((GetKeyState('S') & 0x8000)) {
+	if ((GetKeyState('S') & 0x8000))
+	{
 		Player->Down();
 	}
 }

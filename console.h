@@ -1,35 +1,37 @@
 #pragma once
-#include "windows.h"
-#include <vector>
-#include <string>
+#include "all.h"
 
 class Console
 {
 public:
-    const int CONSOLE_WIDTH = 150,
-              CONSOLE_HEIGHT = 41,
-              MAP_WIDTH = 92,
-              MAP_HEIGHT = 36,
-              SCREEN_WIDTH = 1218,
-              SCREEN_HEIGHT = 700;
+    static const int CONSOLE_WIDTH = 150,
+                     CONSOLE_HEIGHT = 41,
+                     MAP_WIDTH = 92,
+                     MAP_HEIGHT = 36,
+                     SCREEN_WIDTH = 1218,
+                     SCREEN_HEIGHT = 700;
+    const Coordinate MAP_LOCATION = {5, 2};
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
     std::string MAP = "";
-    //1 2 2
+    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+
     void SetupConsole();
     void InitMap();
 
+    virtual void Crash();
+
 public:
     Console();
-    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+    ~Console();
+
     void ShowConsoleCursor(bool showFlag);
 
-    void PutMapInScreen();
-    void CleanScreen();
-    void OutScreen();
+    void PutMapInScreenOutput();
+    void CleanScreenOutput();
+    void PrintOutScreen();
 
-    void UpdateScreen(const int &x, const int &y, std::vector<std::string> &V);
-    void UpdateScreen(const int &x, const int &y, const std::string &ST);
-
-    ~Console();
+    void UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V, const bool &inMap = false);
+    void UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V, const bool &inMap = false, const bool &isPlayer = false);
+    void UpdateScreenOutput(const int &x, const int &y, const std::string &ST, const bool &inMap = false);
 };

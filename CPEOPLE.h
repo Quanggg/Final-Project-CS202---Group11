@@ -14,10 +14,12 @@ class CPEOPLE
 private:
 	vector<string> Player;
 	void InitString();
+
 public:
 	int mX, mY;
 	//bool mState;
 	CPEOPLE(int width);
+	CPEOPLE();
 	void Up();
 	void Left();
 	void Right();
@@ -29,7 +31,8 @@ class CGAME
 private:
 	bool quit;
 	int width;
-	CPEOPLE* Player;
+	CPEOPLE *Player;
+
 public:
 	CGAME(int w, int h);
 	void Draw();
@@ -37,8 +40,5 @@ public:
 	void Run();
 };
 
-
-
-void GotoXY(int x, int y);
+//void GotoXY(int x, int y);
 #endif
-

@@ -1,7 +1,5 @@
 #pragma once
-#include "console.h"
-#include <fstream>
-#include <conio.h>
+#include "all.h"
 
 class Game : public Console
 {
@@ -12,10 +10,22 @@ private:
     std::vector<std::string> SAVEMENU;
     void InitString();
     bool isLoaded = false;
+    void InitPlayer();
+
 public:
-    int started = 0;
+    int ElapsedTime;
+    int _isPlaying = 0;
+
+    Player _Player;
+    VehicleControl _Vehicle;
+    AnimalControl _Animal;
+
     Game();
-    void Init();
+    ~Game();
+
+    void MoveObj();
+
+    void InitGame();
     void Start();
     void Pause();
     void Crash();
@@ -26,4 +36,5 @@ public:
     void saveGameMenu();
     void saveGame(std::string file);
     ~Game();
+
 };
