@@ -16,7 +16,7 @@ int main()
         G.ElapsedTime = time1.QuadPart - time2.QuadPart;
         time2 = time1;
         if (!G._isPlaying)
-            G.isInWelcomeScreen();
+            G.WelcomeScreen();
         else
         {
             G.PutMapInScreenOutput();
