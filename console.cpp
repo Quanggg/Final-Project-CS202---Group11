@@ -1,43 +1,7 @@
 #pragma once
 #include "console.h"
-//#include <cwchar>
-Console::Console()
-{
-    Console::InitMap();
-    Console::SetupConsole();
-}
-Console::~Console()
-{
-    delete[] screen;
-}
 
-void Console::UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V)
-{
-    for (int i = 0; i < V.size(); i++)
-        strcpy(screen + (y + i) * CONSOLE_WIDTH + x, (char *&)V[i]);
-}
-void Console::UpdateScreenOutput(const int &x, const int &y, const std::string &ST)
-{
-    strcpy(screen + y * CONSOLE_WIDTH + x, (char *&)ST);
-}
-void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V)
-{
-    for (int i = 0; i < V.size(); i++)
-        strcpy(screen + (pos._y + i) * CONSOLE_WIDTH + pos._x, (char *&)V[i]);
-}
-
-void Console::CleanScreenOutput()
-{
-    for (int i = 0; i < CONSOLE_WIDTH * CONSOLE_HEIGHT; i++)
-        screen[i] = ' ';
-}
-void Console::PrintOutScreen()
-{
-    screen[CONSOLE_WIDTH * CONSOLE_HEIGHT] = '\0';
-
-    WriteConsoleOutputCharacter(hConsole, (LPCSTR)screen, CONSOLE_WIDTH * CONSOLE_HEIGHT, {0, 0}, &dwBytesWritten);
-}
-
+//
 void Console::InitMap()
 {
     MAP += " __________________________________________________________________________________________ ";
@@ -77,29 +41,25 @@ void Console::InitMap()
     MAP += "|                                                                                          |";
     MAP += "|__________________________________________________________________________________________|";
 }
-void Console::PutMapInScreenOutput()
-{
-    int StartLocation = 2 * CONSOLE_WIDTH + 5;
-    for (int i = 0; i < MAP_HEIGHT; i++)
-        for (int j = 0; j < MAP_WIDTH; j++)
-            screen[StartLocation + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
-}
-
 void Console::SetupConsole()
 {
     Console::CleanScreenOutput();
     SetConsoleActiveScreenBuffer(hConsole);
 
-    //Set console to fixed size
     HWND consoleWindow = GetConsoleWindow();
-    LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
-    style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
-    SetWindowLong(consoleWindow, GWL_STYLE, style);
 
     RECT desktop;
     const HWND hDesktop = GetDesktopWindow(); // Get a handle to the desktop window
     GetWindowRect(hDesktop, &desktop);        // Get the size of screen to the variable desktop
+
     // Screen resolution = desktop.right x desktop.bottom
+    // Set console to center of the screen
+    MoveWindow(consoleWindow, (desktop.right - SCREEN_WIDTH) / 2, (desktop.bottom - SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, TRUE);
+
+    //Set console to fixed size
+    LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
+    style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
+    SetWindowLong(consoleWindow, GWL_STYLE, style);
 
     //Change console font 16 and font is Consolas
     /*
@@ -114,13 +74,25 @@ void Console::SetupConsole()
     SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
     */
 
-    // Set console to center of the screen
-    MoveWindow(consoleWindow, (desktop.right - SCREEN_WIDTH) / 2, (desktop.bottom - SCREEN_HEIGHT) / 2, SCREEN_WIDTH, SCREEN_HEIGHT, TRUE);
-
     //Hide Cursor
     Console::ShowConsoleCursor(false);
 }
 
+//
+void Console::Crash() {}
+
+//
+Console::Console()
+{
+    Console::InitMap();
+    Console::SetupConsole();
+}
+Console::~Console()
+{
+    delete[] screen;
+}
+
+//
 void Console::ShowConsoleCursor(bool showFlag)
 {
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -130,4 +102,91 @@ void Console::ShowConsoleCursor(bool showFlag)
     cursorInfo.bVisible = showFlag; // set the cursor visibility
 
     SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
+
+//
+void Console::PutMapInScreenOutput()
+{
+    int StartLocation = MAP_LOCATION._y * CONSOLE_WIDTH + MAP_LOCATION._x;
+    for (int i = 0; i < MAP_HEIGHT; i++)
+        for (int j = 0; j < MAP_WIDTH; j++)
+            screen[StartLocation + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
+}
+void Console::CleanScreenOutput()
+{
+    for (int i = 0; i < CONSOLE_WIDTH * CONSOLE_HEIGHT; i++)
+        screen[i] = ' ';
+}
+void Console::PrintOutScreen()
+{
+    screen[CONSOLE_WIDTH * CONSOLE_HEIGHT] = '\0';
+
+    WriteConsoleOutputCharacter(hConsole, (LPCSTR)screen, CONSOLE_WIDTH * CONSOLE_HEIGHT, {0, 0}, &dwBytesWritten);
+}
+
+//
+void Console::UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V, const bool &inMap)
+{
+    if (inMap == false)
+        for (int i = 0; i < V.size(); i++)
+            strcpy(screen + (y + i) * CONSOLE_WIDTH + x, (char *&)V[i]);
+    else
+    {
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+                if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                    screen[j] = V[i][k];
+        }
+    }
+}
+void Console::UpdateScreenOutput(const int &x, const int &y, const std::string &ST, const bool &inMap)
+{
+    if (inMap == false)
+        strcpy(screen + y * CONSOLE_WIDTH + x, (char *&)ST);
+    else
+    {
+        int _LineIndex = y * CONSOLE_WIDTH;
+        int _StartIndex = _LineIndex + x;
+        for (int j = _StartIndex, k = 0; j < _StartIndex + ST.length(); j++, k++)
+            if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                screen[j] = ST[k];
+    }
+}
+void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V, const bool &inMap, const bool &isPlayer)
+{
+    if (isPlayer)
+    {
+        bool _Crash = false;
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (pos._y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + pos._x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+            {
+                if (screen[j] != ' ' && pos._y != MAP_LOCATION._y + MAP_HEIGHT - 3)
+                    _Crash = true;
+                screen[j] = V[i][k];
+            }
+        }
+        if (_Crash)
+            Crash();
+        return;
+    }
+    if (inMap == false)
+        for (int i = 0; i < V.size(); i++)
+            strcpy(screen + (pos._y + i) * CONSOLE_WIDTH + pos._x, (char *&)V[i]);
+    else
+    {
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (pos._y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + pos._x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+                if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                    screen[j] = V[i][k];
+        }
+    }
 }

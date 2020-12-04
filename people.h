@@ -7,7 +7,7 @@ class vehicle
 
 public:
     std::vector<std::string> st;
-    vehicle(int x, int y) : x(x), y(y){};
+    vehicle(int x, int y);
     int x, y;
     virtual ~vehicle(){};
 };
