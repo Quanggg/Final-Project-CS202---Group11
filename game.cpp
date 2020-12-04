@@ -3,44 +3,41 @@
 //
 Game::Game() : Console()
 {
-    Game::InitString();
+	Game::InitString();
 }
 Game::~Game() {}
 
 //
 void Game::MoveObj()
 {
-    //Move vehicle
-    _Vehicle.Move(ElapsedTime);
-    for (auto i : _Vehicle._CarLane)
-        UpdateScreenOutput(i->_Pos, i->_STRING, true); //car
+	//Move vehicle
+	_Vehicle.Move(ElapsedTime);
+	for (auto i : _Vehicle._CarLane)
+		UpdateScreenOutput(i->_Pos, i->_STRING, true); //car
 
-    for (auto i : _Vehicle._TruckLane)
-        UpdateScreenOutput(i->_Pos, i->_STRING, true); //truck
+	for (auto i : _Vehicle._TruckLane)
+		UpdateScreenOutput(i->_Pos, i->_STRING, true); //truck
 
-    //Move animal
-    _Animal.Move(ElapsedTime);
-    for (auto i : _Animal._BirdLane)
-        UpdateScreenOutput(i->_Pos, i->_STRING, true); //bird
+	//Move animal
+	_Animal.Move(ElapsedTime);
+	for (auto i : _Animal._BirdLane)
+		UpdateScreenOutput(i->_Pos, i->_STRING, true); //bird
 
-    for (auto i : _Animal._DinosaurLane)
-        UpdateScreenOutput(i->_Pos, i->_STRING, true); //dinosaur
+	for (auto i : _Animal._DinosaurLane)
+		UpdateScreenOutput(i->_Pos, i->_STRING, true); //dinosaur
 }
 
 //
 void Game::InitGame()
 {
-    //for (int i = 0; i < 7; i++)
-    //  strcpy(screen + (25 + i) * CONSOLE_WIDTH + 53, (char *&)WELCOME[i]);
-
 	//draw game name at the center
-    UpdateScreen(33, 5, GAMENAME);
+	UpdateScreenOutput(33, 5, GAMENAME);
 
-    //draw welcome at the center
-    Console::UpdateScreenOutput(53, 25, WELCOME_STRING);
+	//draw welcome at the center
+	Console::UpdateScreenOutput(53, 25, WELCOME);
 
-    //draw teammates info
-    Console::UpdateScreenOutput(70, CONSOLE_HEIGHT - 1, "19-APCS-1   GROUP 11:  QUANG LE      HUY NGUYEN      HUY PHAN      THANG NGUYEN");
+	//draw teammates info
+	Console::UpdateScreenOutput(70, CONSOLE_HEIGHT - 1, "19-APCS-1   GROUP 11:  QUANG LE      HUY NGUYEN      HUY PHAN      THANG NGUYEN");
 }
 void Game::Start()
 {
@@ -48,73 +45,82 @@ void Game::Start()
 void Game::Pause() {}
 void Game::Crash()
 {
-    _isPlaying = false;
+	_isPlaying = false;
 }
 
 void Game::InitPlayer()
 {
-    _Player._Pos._x = MAP_LOCATION._x + MAP_WIDTH / 2 - 1;
-    _Player._Pos._y = MAP_LOCATION._y + MAP_HEIGHT - 3;
-    _Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 3, MAP_LOCATION._y + MAP_HEIGHT - 3);
-    _Player._Pos.SetMin(MAP_LOCATION._x + 1, MAP_LOCATION._y + 1);
+	_Player._Pos._x = MAP_LOCATION._x + MAP_WIDTH / 2 - 1;
+	_Player._Pos._y = MAP_LOCATION._y + MAP_HEIGHT - 3;
+	_Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 3, MAP_LOCATION._y + MAP_HEIGHT - 3);
+	_Player._Pos.SetMin(MAP_LOCATION._x + 1, MAP_LOCATION._y + 1);
 }
 void Game::InitString()
 {
-    WELCOME.assign(7, "");
-    WELCOME[0] = "____________________WELCOME!___________________";
-    WELCOME[1] = "";
-    WELCOME[2] = "                1.  New game";
-    WELCOME[3] = "                2.  Load game";
-    WELCOME[4] = "                3.  Settings";
-    WELCOME[5] = "                0.    Exit";
-    WELCOME[6] = "               ---------------";
+	WELCOME.assign(7, "");
+	WELCOME[0] = "____________________WELCOME!___________________";
+	WELCOME[1] = "";
+	WELCOME[2] = "                1.  New game";
+	WELCOME[3] = "                2.  Load game";
+	WELCOME[4] = "                3.  Settings";
+	WELCOME[5] = "                0.    Exit";
+	WELCOME[6] = "               ---------------";
 
-    GAMENAME.assign(11, "");
-    GAMENAME[0] = "      _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|  _|      _|  _|_|_|_|";
-    GAMENAME[1] = "      _|        _|    _|  _|    _|  _|        _|        _|  _|_|    _|  _|      ";
-    GAMENAME[2] = "      _|        _|_|_|_|  _|    _|  _|_|_|_|  _|_|_|_|  _|  _|  _|  _|  _|  _|_|";
-    GAMENAME[3] = "      _|        _|  _|    _|    _|        _|        _|  _|  _|    _|_|  _|    _|";
-    GAMENAME[4] = "      _|_|_|_|  _|    _|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|  _|      _|  _|_|_|_|";
-    GAMENAME[5] = "";
-    GAMENAME[6] = "                        _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_\\";
-    GAMENAME[7] = "                        _|    _|  _|    _|  _|    _|  _|    _|";
-    GAMENAME[8] = "                        _|_|_|_|  _|    _|  _|_|_|_|  _|    _|";
-    GAMENAME[9] = "                        _|  _|    _|    _|  _|    _|  _|    _|";
-   GAMENAME[10] = "                        _|    _|  _|_|_|_|  _|    _|  _|_|_|_/";
+	INFO.assign(7, "");
+	INFO[0] = "_______________________________________";
+	INFO[1] = "                LEVEL 01";
+	INFO[2] = "";
+	INFO[3] = "";
+	INFO[4] = "";
+	INFO[5] = "";
+	INFO[6] = "";
 
-   LOADMENU.assign(7, "");
-   LOADMENU[0] = "_|        _|_|_|_|  _|_|_|_|  _|_|_|_\\";
-   LOADMENU[1] = "_|        _|    _|  _|    _|  _|    _|";
-   LOADMENU[2] = "_|        _|    _|  _|_|_|_|  _|    _|  _|     _|  _|_|_|_|  _|      _|  _|    _|";
-   LOADMENU[3] = "_|        _|    _|  _|    _|  _|    _|  _|_| _|_|  _|        _|_|    _|  _|    _|";
-   LOADMENU[4] = "_|_|_|_|  _|_|_|_|  _|    _|  _|_|_|_/  _|  _| _|  _|_|_|_|  _|  _|  _|  _|    _|";
-   LOADMENU[5] = "                                        _|     _|  _|        _|    _|_|  _|    _|";
-   LOADMENU[6] = "                                        _|     _|  _|_|_|_|  _|      _|  _|_|_|_|";
-   
-   SAVEMENU.assign(7, "");
-   SAVEMENU[0] = "_|_|_|_|  _|_|_|_|  _|        _|  _|_|_|_| ";
-   SAVEMENU[1] = " _|       _|    _|   _|      _|   _|";      
-   SAVEMENU[2] = "   _|     _|_|_|_|    _|    _|    _|_|_|_|  _|     _|  _|_|_|_|  _|      _|  _|    _|";
-   SAVEMENU[3] = "     _|   _|    _|     _|  _|     _|        _|_| _|_|  _|        _|_|    _|  _|    _|";
-   SAVEMENU[4] = "_|_|_|_|  _|    _|      _|_|      _|_|_|_|  _|  _| _|  _|_|_|_|  _|  _|  _|  _|    _|";
-   SAVEMENU[5] = "                                            _|     _|  _|        _|    _|_|  _|    _|";
-   SAVEMENU[6] = "                                            _|     _|  _|_|_|_|  _|      _|  _|_|_|_|";
+	GAMENAME.assign(11, "");
+	GAMENAME[0] = "      _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|  _|      _|  _|_|_|_|";
+	GAMENAME[1] = "      _|        _|    _|  _|    _|  _|        _|        _|  _|_|    _|  _|      ";
+	GAMENAME[2] = "      _|        _|_|_|_|  _|    _|  _|_|_|_|  _|_|_|_|  _|  _|  _|  _|  _|  _|_|";
+	GAMENAME[3] = "      _|        _|  _|    _|    _|        _|        _|  _|  _|    _|_|  _|    _|";
+	GAMENAME[4] = "      _|_|_|_|  _|    _|  _|_|_|_|  _|_|_|_|  _|_|_|_|  _|  _|      _|  _|_|_|_|";
+	GAMENAME[5] = "";
+	GAMENAME[6] = "                        _|_|_|_|  _|_|_|_|  _|_|_|_|  _|_|_|_\\";
+	GAMENAME[7] = "                        _|    _|  _|    _|  _|    _|  _|    _|";
+	GAMENAME[8] = "                        _|_|_|_|  _|    _|  _|_|_|_|  _|    _|";
+	GAMENAME[9] = "                        _|  _|    _|    _|  _|    _|  _|    _|";
+	GAMENAME[10] = "                        _|    _|  _|_|_|_|  _|    _|  _|_|_|_/";
+
+	LOADMENU.assign(7, "");
+	LOADMENU[0] = "_|        _|_|_|_|  _|_|_|_|  _|_|_|_\\";
+	LOADMENU[1] = "_|        _|    _|  _|    _|  _|    _|";
+	LOADMENU[2] = "_|        _|    _|  _|_|_|_|  _|    _|  _|     _|  _|_|_|_|  _|      _|  _|    _|";
+	LOADMENU[3] = "_|        _|    _|  _|    _|  _|    _|  _|_| _|_|  _|        _|_|    _|  _|    _|";
+	LOADMENU[4] = "_|_|_|_|  _|_|_|_|  _|    _|  _|_|_|_/  _|  _| _|  _|_|_|_|  _|  _|  _|  _|    _|";
+	LOADMENU[5] = "                                        _|     _|  _|        _|    _|_|  _|    _|";
+	LOADMENU[6] = "                                        _|     _|  _|_|_|_|  _|      _|  _|_|_|_|";
+
+	SAVEMENU.assign(7, "");
+	SAVEMENU[0] = "_|_|_|_|  _|_|_|_|  _|        _|  _|_|_|_| ";
+	SAVEMENU[1] = " _|       _|    _|   _|      _|   _|";
+	SAVEMENU[2] = "   _|     _|_|_|_|    _|    _|    _|_|_|_|  _|     _|  _|_|_|_|  _|      _|  _|    _|";
+	SAVEMENU[3] = "     _|   _|    _|     _|  _|     _|        _|_| _|_|  _|        _|_|    _|  _|    _|";
+	SAVEMENU[4] = "_|_|_|_|  _|    _|      _|_|      _|_|_|_|  _|  _| _|  _|_|_|_|  _|  _|  _|  _|    _|";
+	SAVEMENU[5] = "                                            _|     _|  _|        _|    _|_|  _|    _|";
+	SAVEMENU[6] = "                                            _|     _|  _|_|_|_|  _|      _|  _|_|_|_|";
 }
 
-void Game::isInWelcomeScreen()
+void Game::WelcomeScreen()
 {
-    if (!_isPlaying && (GetAsyncKeyState((unsigned short)'0') & 0x8000))
-        exit(0);
-    if (!started && (GetAsyncKeyState((unsigned short)'1') & 0x8000))
-        started = 1, CleanScreen();
-	if (!started && (GetAsyncKeyState((unsigned short)'2') & 0x8000))
-        if(!loadGameMenu())
-			Init();
-	if (!started && (GetAsyncKeyState((unsigned short)'4') & 0x8000))
+	if ((GetAsyncKeyState((unsigned short)'0') & 0x8000))
+		exit(0);
+	if ((GetAsyncKeyState((unsigned short)'1') & 0x8000))
+		_isPlaying = 1, CleanScreenOutput(), Game::InitPlayer();
+	if ((GetAsyncKeyState((unsigned short)'2') & 0x8000))
+		if (!loadGameMenu())
+			InitGame();
+	if ((GetAsyncKeyState((unsigned short)'4') & 0x8000))
 		saveGameMenu();
 }
 
-std::vector<std::string> Game::getFilename(const std::string& name)
+std::vector<std::string> Game::getFilename(const std::string &name)
 {
 	std::vector<std::string> v;
 	std::string pattern(name);
@@ -123,13 +129,16 @@ std::vector<std::string> Game::getFilename(const std::string& name)
 	LPCWSTR sw = stemp.c_str();
 	WIN32_FIND_DATAW data;
 	HANDLE hFind;
-	if ((hFind = FindFirstFileW(sw, &data)) != INVALID_HANDLE_VALUE) {
-		do {
-			wchar_t* txt = data.cFileName;
+	if ((hFind = FindFirstFileW(sw, &data)) != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			wchar_t *txt = data.cFileName;
 			std::wstring ws(txt);
 			// your new String
 			std::string str(ws.begin(), ws.end());
-			if (str[0] == '.') continue;
+			if (str[0] == '.')
+				continue;
 			// Show String
 			v.push_back(str);
 			//Just test !
@@ -143,64 +152,69 @@ std::vector<std::string> Game::getFilename(const std::string& name)
 bool Game::loadGameMenu()
 {
 	std::string filename;
-	CleanScreen();
-	std::vector <std::string> files = getFilename("data");
-	if (files.size() == 0) {
-		UpdateScreen(65, 30, "NO SAVED FILES EXIST!");
+	CleanScreenOutput();
+	std::vector<std::string> files = getFilename("data");
+	if (files.size() == 0)
+	{
+		UpdateScreenOutput(65, 33, "NO SAVED FILES EXIST!");
 		return false;
 	}
 	int curPos = 0;
-	CleanScreen();
+	CleanScreenOutput();
 
-	UpdateScreen(38, 5, LOADMENU);
-	UpdateScreen(36, 13, "<Press ESC to escape...>");
-	UpdateScreen(36, 15, "Choose Filename to load: ");
+	UpdateScreenOutput(38, 5, LOADMENU);
+	UpdateScreenOutput(36, 13, "<Press ESC to escape...>");
+	UpdateScreenOutput(36, 15, "Choose Filename to load: ");
 
-	
-
-	for (int i = 0; i < (int)files.size(); ++i) {
-		if (i == curPos) {
-			UpdateScreen(26, 16 + i, ">> ");
+	for (int i = 0; i < (int)files.size(); ++i)
+	{
+		if (i == curPos)
+		{
+			UpdateScreenOutput(26, 16 + i, ">> ");
 		}
-		UpdateScreen(30, 16 + i, files[i]);
+		UpdateScreenOutput(30, 16 + i, files[i]);
 	}
-	OutScreen();
-	while (true) {
+	PrintOutScreen();
+	while (true)
+	{
 		if ((GetAsyncKeyState((unsigned short)'W') & 0x8000))
 		{
-			UpdateScreen(26, 16 + curPos, "    " + files[curPos]);
+			UpdateScreenOutput(26, 16 + curPos, "    " + files[curPos]);
 			curPos--;
 			curPos = (curPos + files.size()) % files.size();
-			UpdateScreen(26, 16 + curPos, ">>  " + files[curPos]);
-			OutScreen();
+			UpdateScreenOutput(26, 16 + curPos, ">>  " + files[curPos]);
+			PrintOutScreen();
 		}
 		if ((GetAsyncKeyState((unsigned short)'S') & 0x8000))
 		{
-			UpdateScreen(26, 16 + curPos, "    " + files[curPos]);
+			UpdateScreenOutput(26, 16 + curPos, "    " + files[curPos]);
 			curPos++;
 			curPos = (curPos + files.size()) % files.size();
-			UpdateScreen(26, 16 + curPos, ">>  " + files[curPos]);
-			OutScreen();
+			UpdateScreenOutput(26, 16 + curPos, ">>  " + files[curPos]);
+			PrintOutScreen();
 		}
 		if ((GetAsyncKeyState((unsigned short)VK_RETURN) & 0x8000)) //enter
 		{
 			isLoaded = true;
 			loadGame(files[curPos]);
-			CleanScreen();
+			CleanScreenOutput();
 			return true;
 		}
 		if ((GetAsyncKeyState((unsigned short)VK_ESCAPE) & 0x8000)) //esc
 		{
-			CleanScreen();
+			CleanScreenOutput();
 			return false;
 		}
 	}
 	Sleep(200);
+	return false;
 }
 
-bool Game::loadGame(std::string file) {
+bool Game::loadGame(std::string file)
+{
 	std::ifstream infile("./data/" + file);
-	if (!infile.is_open()) {
+	if (!infile.is_open())
+	{
 		return false;
 	}
 
@@ -214,22 +228,26 @@ bool Game::loadGame(std::string file) {
 	return true;
 }
 
-void Game::saveGameMenu() { // get file of cMap ma
+void Game::saveGameMenu()
+{ // get file of cMap ma
 	std::string filename;
-	CleanScreen();
-	
-	UpdateScreen(36, 5, SAVEMENU);
-	UpdateScreen(36, 20, "<Press ESC to escape...>");
+	CleanScreenOutput();
 
-	UpdateScreen(36, 15, "Input file name to save: ");
+	UpdateScreenOutput(36, 5, SAVEMENU);
+	UpdateScreenOutput(36, 20, "<Press ESC to escape...>");
+
+	UpdateScreenOutput(36, 15, "Input file name to save: ");
 	char key;
-	while ((key = _getch()) != 27) {
-		switch (key) {
+	while ((key = getch()) != 27)
+	{
+		switch (key)
+		{
 		case '\b':
-			if (filename.size() != 0) {
+			if (filename.size() != 0)
+			{
 				filename.pop_back();
-				UpdateScreen(61, 15, filename);
-				OutScreen();
+				UpdateScreenOutput(61, 15, filename);
+				PrintOutScreen();
 			}
 			break;
 		case 13:
@@ -237,13 +255,14 @@ void Game::saveGameMenu() { // get file of cMap ma
 			break;
 		default:
 			filename.push_back(key);
-			UpdateScreen(61, 15, filename);
-			OutScreen();
+			UpdateScreenOutput(61, 15, filename);
+			PrintOutScreen();
 		}
-		if (key == 13) break;
+		if (key == 13)
+			break;
 	}
-	CleanScreen();
-	OutScreen();
+	CleanScreenOutput();
+	PrintOutScreen();
 }
 
 void Game::saveGame(std::string file)
@@ -253,8 +272,4 @@ void Game::saveGame(std::string file)
 	//outfile << Player.mY;
 
 	outfile.close();
-}
-
-    if (!_isPlaying && (GetAsyncKeyState((unsigned short)'1') & 0x8000))
-        _isPlaying = 1, Console::CleanScreenOutput(), Game::InitPlayer();
 }
