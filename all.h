@@ -13,3 +13,4 @@
 #include "console.cpp"
 #include "player.cpp"
 #include "vehicle.cpp"
+#include "animal.cpp"

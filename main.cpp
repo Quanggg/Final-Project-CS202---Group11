@@ -20,13 +20,11 @@ int main()
         else
         {
             G.PutMapInScreenOutput();
-            G._Vehicle.Move(G.ElapsedTime);
-            for (auto i : G._Vehicle._CarLane)
-                G.UpdateScreenOutput(i->_Pos, i->_STRING);
-            for (auto i : G._Vehicle._TruckLane)
-                G.UpdateScreenOutput(i->_Pos, i->_STRING);
+
+            G.MoveObj();
+
             G._Player.InputFromKeyboard(G.ElapsedTime);
-            G.UpdateScreenOutput(G._Player._Pos._x, G._Player._Pos._y, G._Player._STRING);
+            G.UpdateScreenOutput(G._Player._Pos, G._Player._STRING, false, true);
         }
         G.PrintOutScreen();
     }

@@ -79,6 +79,9 @@ void Console::SetupConsole()
 }
 
 //
+void Console::Crash() {}
+
+//
 Console::Console()
 {
     Console::InitMap();
@@ -104,7 +107,7 @@ void Console::ShowConsoleCursor(bool showFlag)
 //
 void Console::PutMapInScreenOutput()
 {
-    int StartLocation = 2 * CONSOLE_WIDTH + 5;
+    int StartLocation = MAP_LOCATION._y * CONSOLE_WIDTH + MAP_LOCATION._x;
     for (int i = 0; i < MAP_HEIGHT; i++)
         for (int j = 0; j < MAP_WIDTH; j++)
             screen[StartLocation + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
@@ -122,17 +125,68 @@ void Console::PrintOutScreen()
 }
 
 //
-void Console::UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V)
+void Console::UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V, const bool &inMap)
 {
-    for (int i = 0; i < V.size(); i++)
-        strcpy(screen + (y + i) * CONSOLE_WIDTH + x, (char *&)V[i]);
+    if (inMap == false)
+        for (int i = 0; i < V.size(); i++)
+            strcpy(screen + (y + i) * CONSOLE_WIDTH + x, (char *&)V[i]);
+    else
+    {
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+                if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                    screen[j] = V[i][k];
+        }
+    }
 }
-void Console::UpdateScreenOutput(const int &x, const int &y, const std::string &ST)
+void Console::UpdateScreenOutput(const int &x, const int &y, const std::string &ST, const bool &inMap)
 {
-    strcpy(screen + y * CONSOLE_WIDTH + x, (char *&)ST);
+    if (inMap == false)
+        strcpy(screen + y * CONSOLE_WIDTH + x, (char *&)ST);
+    else
+    {
+        int _LineIndex = y * CONSOLE_WIDTH;
+        int _StartIndex = _LineIndex + x;
+        for (int j = _StartIndex, k = 0; j < _StartIndex + ST.length(); j++, k++)
+            if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                screen[j] = ST[k];
+    }
 }
-void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V)
+void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V, const bool &inMap, const bool &isPlayer)
 {
-    for (int i = 0; i < V.size(); i++)
-        strcpy(screen + (pos._y + i) * CONSOLE_WIDTH + pos._x, (char *&)V[i]);
+    if (isPlayer)
+    {
+        bool _Crash = false;
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (pos._y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + pos._x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+            {
+                if (screen[j] != ' ' && pos._y != MAP_LOCATION._y + MAP_HEIGHT - 3)
+                    _Crash = true;
+                screen[j] = V[i][k];
+            }
+        }
+        if (_Crash)
+            Crash();
+        return;
+    }
+    if (inMap == false)
+        for (int i = 0; i < V.size(); i++)
+            strcpy(screen + (pos._y + i) * CONSOLE_WIDTH + pos._x, (char *&)V[i]);
+    else
+    {
+        for (int i = 0; i < V.size(); i++)
+        {
+            int _LineIndex = (pos._y + i) * CONSOLE_WIDTH;
+            int _StartIndex = _LineIndex + pos._x;
+            for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
+                if (_LineIndex + MAP_LOCATION._x < j && j < _LineIndex + MAP_LOCATION._x + MAP_WIDTH - 1)
+                    screen[j] = V[i][k];
+        }
+    }
 }

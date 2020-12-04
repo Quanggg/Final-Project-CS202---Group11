@@ -13,12 +13,11 @@ Car::Car(int x, int y) : Vehicle()
     _Pos = {x, y};
     _Pos.SetMax(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + Console::MAP_HEIGHT - 1);
     _Pos.SetMin(MAP_LOCATION._x - 4, MAP_LOCATION._y + 1);
-    _STRING.assign(5, "");
-    _STRING[0] = " ------";
-    _STRING[1] = "| Car  |";
-    _STRING[2] = "|      |";
-    _STRING[3] = " ------";
-    _STRING[4] = "O o  o O";
+    _STRING.assign(4, "");
+    _STRING[0] = "  ______";
+    _STRING[1] = " /|_||_\\`.__";
+    _STRING[2] = "(   _    _ _\\";
+    _STRING[3] = "=`-(_)--(_)-'";
 }
 Car::~Car() {}
 
@@ -29,13 +28,13 @@ Truck::Truck(int x, int y) : Vehicle()
     _Direction = -1;
     _Pos = {x, y};
     _Pos.SetMax(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + Console::MAP_HEIGHT - 1);
-    _Pos.SetMin(MAP_LOCATION._x - 4, MAP_LOCATION._y + 1);
+    _Pos.SetMin(MAP_LOCATION._x - 18, MAP_LOCATION._y + 1);
     _STRING.assign(5, "");
-    _STRING[0] = " ------";
-    _STRING[1] = "|Truck |";
-    _STRING[2] = "|      |";
-    _STRING[3] = " ------";
-    _STRING[4] = "O o  o O";
+    _STRING[0] = "        __________";
+    _STRING[1] = "  ___  |          |";
+    _STRING[2] = " /_| | |          |";
+    _STRING[3] = "|    |_|__________|";
+    _STRING[4] = "\"-O----O-O`    O`O`";
 }
 Truck::~Truck() {}
 

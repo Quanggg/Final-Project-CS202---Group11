@@ -36,10 +36,10 @@ public:
 class VehicleControl
 {
 private:
-    const int CAR_LOCATION_Y = 25,
+    const int CAR_LOCATION_Y = 26,
               TRUCK_LOCATION_Y = 13,
-              CAR_LENGTH = 8,
-              TRUCK_LENGTH = 8;
+              CAR_LENGTH = 13,
+              TRUCK_LENGTH = 19;
 
     int DIVIDE_CONSTANT = 1000000;
 

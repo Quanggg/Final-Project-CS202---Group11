@@ -14,9 +14,12 @@ public:
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
     std::string MAP = "";
+    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+
     void SetupConsole();
     void InitMap();
-    char *screen = new char[CONSOLE_WIDTH * CONSOLE_HEIGHT + 1];
+
+    virtual void Crash();
 
 public:
     Console();
@@ -28,7 +31,7 @@ public:
     void CleanScreenOutput();
     void PrintOutScreen();
 
-    void UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V);
-    void UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V);
-    void UpdateScreenOutput(const int &x, const int &y, const std::string &ST);
+    void UpdateScreenOutput(const int &x, const int &y, std::vector<std::string> &V, const bool &inMap = false);
+    void UpdateScreenOutput(const Coordinate &pos, std::vector<std::string> &V, const bool &inMap = false, const bool &isPlayer = false);
+    void UpdateScreenOutput(const int &x, const int &y, const std::string &ST, const bool &inMap = false);
 };
