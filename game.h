@@ -4,8 +4,12 @@
 class Game : public Console
 {
 private:
-    std::vector<std::string> WELCOME_STRING, INFO_STRING;
+    std::vector<std::string> WELCOME;
+    std::vector<std::string> GAMENAME;
+    std::vector<std::string> LOADMENU;
+    std::vector<std::string> SAVEMENU;
     void InitString();
+    bool isLoaded = false;
     void InitPlayer();
 
 public:
@@ -25,5 +29,12 @@ public:
     void Start();
     void Pause();
     void Crash();
-    void isInWelcomeScreen();
+    void WelcomeScreen();
+    bool loadGameMenu();
+    std::vector<std::string> getFilename(const std::string& name);
+    bool loadGame(std::string file);
+    void saveGameMenu();
+    void saveGame(std::string file);
+    ~Game();
+
 };
