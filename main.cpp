@@ -19,6 +19,7 @@ int main()
             G.WelcomeScreen();
         else
         {
+            G.UpdateScreenOutput(G.INFO_LOCATION, G.INFO);
             G.PutMapInScreenOutput();
 
             G.MoveObj();
