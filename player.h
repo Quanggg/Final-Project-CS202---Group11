@@ -4,7 +4,7 @@
 class Player
 {
 private:
-    const int DIVIDE_CONSTANT = 950000;
+    const int DIVIDE_CONSTANT = 930000;
     float _Distance, _DistanceSum;
 
     void InitString();
