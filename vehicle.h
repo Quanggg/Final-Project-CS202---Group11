@@ -47,14 +47,13 @@ private:
     void TruckMove(const int &ElapsedTime);
 
 public:
-    int _Level = 1;
     std::deque<Vehicle *> _CarLane, _TruckLane;
 
-    VehicleControl();
+    VehicleControl(const int &level);
+    ~VehicleControl();
 
     void CreateObj();
     void Move(const int &ElapsedTime);
-    void SetLevel(const int &x);
 
     void AddCar();
     void AddTruck();

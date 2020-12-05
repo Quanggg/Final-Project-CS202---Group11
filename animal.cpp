@@ -81,9 +81,17 @@ void AnimalControl::DinosaurMove(const int &ElapsedTime)
 }
 
 //
-AnimalControl::AnimalControl()
+AnimalControl::AnimalControl(const int &level)
 {
     AnimalControl::CreateObj();
+    DIVIDE_CONSTANT -= 70000 * sqrt(level);
+}
+AnimalControl::~AnimalControl()
+{
+    for (auto i : _BirdLane)
+        delete i;
+    for (auto i : _DinosaurLane)
+        delete i;
 }
 
 //
@@ -94,13 +102,13 @@ void AnimalControl::CreateObj()
     int _RandomDistance, NEW_LOCATION;
     //create 4 Bird obj with random distance
     //Bird1 Bird2 Bird3 Bird4
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
     {
         if (!i)
             v = new Bird(MAP_LOCATION._x + 2, MAP_LOCATION._y + BIRD_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 20 + 1;
+            _RandomDistance = rand() % 30 + 1;
             NEW_LOCATION = _BirdLane[i - 1]->_Pos._x + BIRD_LENGTH + _RandomDistance;
 
             v = new Bird(NEW_LOCATION, MAP_LOCATION._y + BIRD_LOCATION_Y);
@@ -110,13 +118,13 @@ void AnimalControl::CreateObj()
 
     //create 4 Dinosaur obj with random distance
     //Dinosaur4 Dinosaur3 Dinosaur2 Dinosaur1
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
     {
         if (!i)
             v = new Dinosaur(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + DINOSAUR_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 20 + 1;
+            _RandomDistance = rand() % 30 + 1;
             NEW_LOCATION = _DinosaurLane.front()->_Pos._x - DINOSAUR_LENGTH - _RandomDistance;
 
             v = new Dinosaur(NEW_LOCATION, MAP_LOCATION._y + DINOSAUR_LOCATION_Y);
@@ -131,11 +139,6 @@ void AnimalControl::Move(const int &ElapsedTime)
 
     AnimalControl::DinosaurMove(ElapsedTime);
     AnimalControl::AddDinosaur();
-}
-void AnimalControl::SetLevel(const int &x)
-{
-    _Level = x;
-    DIVIDE_CONSTANT = 10000000 - x * 500000;
 }
 
 //
