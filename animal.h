@@ -47,14 +47,13 @@ private:
     void DinosaurMove(const int &ElapsedTime);
 
 public:
-    int _Level = 1;
     std::deque<Animal *> _BirdLane, _DinosaurLane;
 
-    AnimalControl();
+    AnimalControl(const int &level, const bool &b = true);
+    ~AnimalControl();
 
     void CreateObj();
     void Move(const int &ElapsedTime);
-    void SetLevel(const int &x);
 
     void AddBird();
     void AddDinosaur();

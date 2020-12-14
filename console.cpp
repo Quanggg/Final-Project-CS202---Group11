@@ -79,6 +79,7 @@ void Console::SetupConsole()
 
 //
 void Console::Crash() {}
+void Console::LevelUp() {}
 
 //
 Console::Console()
@@ -110,6 +111,12 @@ void Console::PutMapInScreenOutput()
     for (int i = 0; i < MAP_HEIGHT; i++)
         for (int j = 0; j < MAP_WIDTH; j++)
             screen[StartLocation + CONSOLE_WIDTH * i + j] = MAP[MAP_WIDTH * i + j];
+}
+void Console::PutTrafficLightInScreenOutput()
+{
+    screen[15 * CONSOLE_WIDTH + 6] = 219;
+
+    screen[27 * CONSOLE_WIDTH + 5 + MAP_WIDTH - 2] = 219;
 }
 void Console::CleanScreenOutput()
 {
@@ -159,8 +166,11 @@ void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string>
     if (isPlayer)
     {
         bool _Crash = false;
+        bool _LevelUp = false;
         for (int i = 0; i < V.size(); i++)
         {
+            if (pos._y < 8)
+                _LevelUp = true;
             int _LineIndex = (pos._y + i) * CONSOLE_WIDTH;
             int _StartIndex = _LineIndex + pos._x;
             for (int j = _StartIndex, k = 0; j < _StartIndex + V[i].length(); j++, k++)
@@ -172,6 +182,8 @@ void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string>
         }
         if (_Crash)
             Crash();
+        if (_LevelUp)
+            LevelUp();
         return;
     }
     if (inMap == false)

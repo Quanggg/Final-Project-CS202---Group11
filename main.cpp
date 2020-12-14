@@ -1,31 +1,13 @@
 #include "all.h"
-#include <iostream>
 #include "game.cpp"
 
-Game G;
-
-int main()
+main()
 {
-    LARGE_INTEGER time1, time2, timeInterval;
-    LARGE_INTEGER Frequency;
-    G.InitGame();
-    while (1)
-    {
-        QueryPerformanceFrequency(&Frequency);
-        QueryPerformanceCounter(&time1);
-        G.ElapsedTime = time1.QuadPart - time2.QuadPart;
-        time2 = time1;
-        if (!G._isPlaying)
-            G.isInWelcomeScreen();
-        else
-        {
-            G.PutMapInScreenOutput();
+    Game G;
 
-            G.MoveObj();
+    while (G.isWelcome)
+        G.WelcomeInput();
 
-            G._Player.InputFromKeyboard(G.ElapsedTime);
-            G.UpdateScreenOutput(G._Player._Pos, G._Player._STRING, false, true);
-        }
-        G.PrintOutScreen();
-    }
+    while (true)
+        G.Processing();
 }

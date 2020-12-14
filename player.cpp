@@ -13,7 +13,7 @@ void Player::InitString()
 //
 void Player::Up()
 {
-    _Pos.SetY(6 * -floor(_Distance));
+    _Pos.SetY(-6);
 }
 void Player::Left()
 {
@@ -25,7 +25,7 @@ void Player::Right()
 }
 void Player::Down()
 {
-    _Pos.SetY(6 * floor(_Distance));
+    _Pos.SetY(6);
 }
 
 //
@@ -48,9 +48,15 @@ void Player::InputFromKeyboard(const int &ElapsedTime)
         Player::Right();
 
     if ((GetAsyncKeyState((unsigned short)'W') & 0x8000))
+        _W_Release = true;
+    else if (_W_Release)
+        _W_Release = false,
         Player::Up();
 
     if ((GetAsyncKeyState((unsigned short)'S') & 0x8000))
+        _S_Release = true;
+    else if (_S_Release)
+        _S_Release = false,
         Player::Down();
 
     if (_Distance > 1)

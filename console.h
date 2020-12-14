@@ -20,6 +20,7 @@ public:
     void InitMap();
 
     virtual void Crash();
+    virtual void LevelUp();
 
 public:
     Console();
@@ -28,6 +29,7 @@ public:
     void ShowConsoleCursor(bool showFlag);
 
     void PutMapInScreenOutput();
+    void PutTrafficLightInScreenOutput();
     void CleanScreenOutput();
     void PrintOutScreen();
 

@@ -80,11 +80,19 @@ void VehicleControl::TruckMove(const int &ElapsedTime)
 }
 
 //
-VehicleControl::VehicleControl()
+VehicleControl::VehicleControl(const int &level, const bool &b)
 {
-    VehicleControl::CreateObj();
+    if (b)
+        VehicleControl::CreateObj();
+    DIVIDE_CONSTANT -= 70000 * sqrt(level);
 }
-
+VehicleControl::~VehicleControl()
+{
+    for (auto i : _CarLane)
+        delete i;
+    for (auto i : _TruckLane)
+        delete i;
+}
 //
 void VehicleControl::CreateObj()
 {
@@ -93,13 +101,13 @@ void VehicleControl::CreateObj()
     int _RandomDistance, NEW_LOCATION;
     //create 4 car obj with random distance
     //car1 car2 car3 car4
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
     {
         if (!i)
             v = new Car(MAP_LOCATION._x + 2, MAP_LOCATION._y + CAR_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 20 + 1;
+            _RandomDistance = rand() % 30 + 1;
             NEW_LOCATION = _CarLane[i - 1]->_Pos._x + CAR_LENGTH + _RandomDistance;
 
             v = new Car(NEW_LOCATION, MAP_LOCATION._y + CAR_LOCATION_Y);
@@ -109,13 +117,13 @@ void VehicleControl::CreateObj()
 
     //create 4 truck obj with random distance
     //truck4 truck3 truck2 truck1
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
     {
         if (!i)
             v = new Truck(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + TRUCK_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 20 + 1;
+            _RandomDistance = rand() % 30 + 1;
             NEW_LOCATION = _TruckLane.front()->_Pos._x - TRUCK_LENGTH - _RandomDistance;
 
             v = new Truck(NEW_LOCATION, MAP_LOCATION._y + TRUCK_LOCATION_Y);
@@ -130,11 +138,6 @@ void VehicleControl::Move(const int &ElapsedTime)
 
     VehicleControl::TruckMove(ElapsedTime);
     VehicleControl::AddTruck();
-}
-void VehicleControl::SetLevel(const int &x)
-{
-    _Level = x;
-    DIVIDE_CONSTANT = 10000000 - x * 500000;
 }
 
 //
