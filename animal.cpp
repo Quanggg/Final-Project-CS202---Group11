@@ -81,9 +81,10 @@ void AnimalControl::DinosaurMove(const int &ElapsedTime)
 }
 
 //
-AnimalControl::AnimalControl(const int &level)
+AnimalControl::AnimalControl(const int &level, const bool &b)
 {
-    AnimalControl::CreateObj();
+    if (b)
+        AnimalControl::CreateObj();
     DIVIDE_CONSTANT -= 70000 * sqrt(level);
 }
 AnimalControl::~AnimalControl()

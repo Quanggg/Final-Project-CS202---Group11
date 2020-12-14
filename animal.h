@@ -49,7 +49,7 @@ private:
 public:
     std::deque<Animal *> _BirdLane, _DinosaurLane;
 
-    AnimalControl(const int &level);
+    AnimalControl(const int &level, const bool &b = true);
     ~AnimalControl();
 
     void CreateObj();
