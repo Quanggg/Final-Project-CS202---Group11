@@ -80,9 +80,10 @@ void VehicleControl::TruckMove(const int &ElapsedTime)
 }
 
 //
-VehicleControl::VehicleControl(const int &level)
+VehicleControl::VehicleControl(const int &level, const bool &b)
 {
-    VehicleControl::CreateObj();
+    if (b)
+        VehicleControl::CreateObj();
     DIVIDE_CONSTANT -= 70000 * sqrt(level);
 }
 VehicleControl::~VehicleControl()

@@ -5,12 +5,12 @@ class Game : public Console
 {
 private:
     int _ElapsedTime,
-        _isPlaying = 0,
         _Level = 1,
         _LevelUP = 0,
         _Light = 1,
         _OptionTime = 0,
-        _TrafficTime = 0;
+        _TrafficTime = 0,
+        _PlayerAllowToMove = 0;
 
     std::vector<std::string> WELCOME, GAMENAME, LOADMENU, SAVEMENU,
         OPTION, CONFIRM, LEVEL_UP;
@@ -30,18 +30,11 @@ private:
 
     void InitString();
     void InitPlayer();
+    void InitTrafficLight();
 
     void DrawOption(const int &x, const int &y);
 
-public:
-    bool isWelcome = true;
-
-    bool isLoaded = false;
-
-    Game();
-    ~Game();
-    void Processing();
-    void WelcomeInput();
+    void Welcome();
 
     void GameTimeControl();
     void TrafficControl();
@@ -49,18 +42,26 @@ public:
     void OptionControl();
     void PlayerControl();
 
-    void InitTrafficLight();
     void Setup();
-    void Pause();
     void LevelUp();
     void Crash();
     bool ConfirmSelect();
     void OptionSelect();
     void ChangeLight();
 
-    bool loadGameMenu();
     std::vector<std::string> getFilename(const std::string &name);
+
+    void loadGameMenu();
     bool loadGame(std::string file);
     void saveGameMenu();
     void saveGame(std::string file);
+
+public:
+    bool isWelcome = true;
+
+    Game();
+    ~Game();
+
+    void Processing();
+    void WelcomeInput();
 };

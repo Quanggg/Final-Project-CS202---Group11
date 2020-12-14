@@ -49,7 +49,7 @@ private:
 public:
     std::deque<Vehicle *> _CarLane, _TruckLane;
 
-    VehicleControl(const int &level);
+    VehicleControl(const int &level, const bool &b = true);
     ~VehicleControl();
 
     void CreateObj();
