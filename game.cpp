@@ -175,6 +175,15 @@ void Game::LevelUp()
 }
 void Game::Crash()
 {
+	if (_Player._Pos._y >= 8 && _Player._Pos._y < 13) //bird crashing
+		PlaySound(TEXT("bird.wav"), NULL, SND_ASYNC);		
+	else if (_Player._Pos._y >= 13 && _Player._Pos._y < 18) // truck crashing
+		PlaySound(TEXT("car.wav"), NULL, SND_ASYNC);
+	else if (_Player._Pos._y >= 18 && _Player._Pos._y < 24) //dinosaur crashing
+		PlaySound(TEXT("dinosaur.wav"), NULL, SND_ASYNC);
+	else if (_Player._Pos._y >= 24) //car crashing
+		PlaySound(TEXT("car.wav"), NULL, SND_ASYNC);
+
 	Console::UpdateScreenOutput(107, 31, "<Press SPACE BAR to restart level...>");
 	while (true)
 	{
