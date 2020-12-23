@@ -3,7 +3,7 @@
 
 class Game : public Console
 {
-private:
+public:
     int _ElapsedTime,
         _Level = 1,
         _LevelUP = 0,

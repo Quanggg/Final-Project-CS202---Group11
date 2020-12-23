@@ -1,5 +1,4 @@
 #include "all.h"
-#include "game.cpp"
 
 main()
 {

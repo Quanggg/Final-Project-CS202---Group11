@@ -39,6 +39,16 @@ void Console::InitMap()
     MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
     MAP += "|__________________________________________________________________________________________|";
+
+    bool b = true;
+    for (int i = 1; i < 6; i++)
+        for (int j = MAP_WIDTH * i + 1; j < MAP_WIDTH * (i + 1) - 1; j++)
+        {
+            if (b)
+                MAP[j] = 219;
+            if (j % 2 == 0)
+                b = !b;
+        }
 }
 void Console::SetupConsole()
 {
@@ -59,6 +69,13 @@ void Console::SetupConsole()
     LONG style = GetWindowLong(consoleWindow, GWL_STYLE);
     style = style & ~(WS_MAXIMIZEBOX) & ~(WS_THICKFRAME);
     SetWindowLong(consoleWindow, GWL_STYLE, style);
+
+    SMALL_RECT windowSize = {0, 0, 160, 41};
+
+    // Change the console window size:
+    SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &windowSize);
+
+    //SetConsoleScreenBufferSize(hConsole, {150, 49});
 
     //Change console font 16 and font is Consolas
     /*
@@ -103,7 +120,6 @@ void Console::ShowConsoleCursor(bool showFlag)
 
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
-
 //
 void Console::PutMapInScreenOutput()
 {
@@ -180,10 +196,14 @@ void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string>
                 screen[j] = V[i][k];
             }
         }
-        if (_Crash)
-            Crash();
         if (_LevelUp)
+        {
+            PrintOutScreen();
+            Sleep(300);
             LevelUp();
+        }
+        else if (_Crash)
+            Crash();
         return;
     }
     if (inMap == false)

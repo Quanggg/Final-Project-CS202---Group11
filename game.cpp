@@ -115,20 +115,20 @@ void Game::OptionControl()
 }
 void Game::PlayerControl()
 {
-	if (_PlayerAllowToMove && _PlayerAllowToMove < 3000)
+	if (_PlayerAllowToMove && _PlayerAllowToMove < 2000)
 		_PlayerAllowToMove++;
 	else
 		_PlayerAllowToMove = 0;
 
 	//check _LevelUP != 0 to prevent show LEVELUP string at the beginning
-	if (_LevelUP && _LevelUP < 3000)
+	if (_LevelUP && _LevelUP < 2000)
 	{
 		_LevelUP++;
 		Console::UpdateScreenOutput(LEVEL_UP_LOCATION, LEVEL_UP);
 	}
 	else
 	{
-		if (_PlayerAllowToMove && _PlayerAllowToMove < 3000)
+		if (_PlayerAllowToMove && _PlayerAllowToMove < 2000)
 			return;
 
 		_Player.InputFromKeyboard(_ElapsedTime);
