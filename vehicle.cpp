@@ -1,18 +1,18 @@
 #pragma once
 #include "vehicle.h"
 
-//
-Vehicle::Vehicle() {}
-Vehicle::~Vehicle() {}
+#define WIDTH Console::MAP_WIDTH
+#define HEIGHT Console::MAP_HEIGHT
+#define MAP Console::MAP_LOCATION
 
 //
-Car::Car() {}
-Car::Car(int x, int y) : Vehicle()
+Car::Car(int x, int y)
 {
     _Direction = 1;
     _Pos = {x, y};
-    _Pos.SetMax(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + Console::MAP_HEIGHT - 1);
-    _Pos.SetMin(MAP_LOCATION._x - 4, MAP_LOCATION._y + 1);
+    _Pos.SetMax(MAP._x + WIDTH - 1, MAP._y + HEIGHT - 1);
+    _Pos.SetMin(MAP._x - 4, MAP._y + 1);
+
     _STRING.assign(4, "");
     _STRING[0] = "  ______";
     _STRING[1] = " /|_||_\\`.__";
@@ -22,13 +22,13 @@ Car::Car(int x, int y) : Vehicle()
 Car::~Car() {}
 
 //
-Truck::Truck() {}
-Truck::Truck(int x, int y) : Vehicle()
+Truck::Truck(int x, int y)
 {
     _Direction = -1;
     _Pos = {x, y};
-    _Pos.SetMax(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + Console::MAP_HEIGHT - 1);
-    _Pos.SetMin(MAP_LOCATION._x - 18, MAP_LOCATION._y + 1);
+    _Pos.SetMax(MAP._x + WIDTH - 1, MAP._y + HEIGHT - 1);
+    _Pos.SetMin(MAP._x - 18, MAP._y + 1);
+
     _STRING.assign(5, "");
     _STRING[0] = "        __________";
     _STRING[1] = "  ___  |          |";
@@ -39,7 +39,7 @@ Truck::Truck(int x, int y) : Vehicle()
 Truck::~Truck() {}
 
 //
-void VehicleControl::CarMove(const int &ElapsedTime)
+void Vehicle::CarMove(const int &ElapsedTime)
 {
     for (auto i : _CarLane)
     {
@@ -49,16 +49,10 @@ void VehicleControl::CarMove(const int &ElapsedTime)
             _CarLane.pop_back();
         }
         else
-        {
-            i->_DistanceSum = 1.0 * ElapsedTime / DIVIDE_CONSTANT;
-            i->_Distance += i->_DistanceSum;
-            i->_Pos.SetX(i->_Direction * floor(i->_Distance));
-            if (i->_Distance > 1)
-                i->_Distance = 0;
-        }
+            i->Move(ElapsedTime);
     }
 }
-void VehicleControl::TruckMove(const int &ElapsedTime)
+void Vehicle::TruckMove(const int &ElapsedTime)
 {
     int k = 0;
     for (auto i : _TruckLane)
@@ -69,24 +63,18 @@ void VehicleControl::TruckMove(const int &ElapsedTime)
             _TruckLane.pop_front();
         }
         else
-        {
-            i->_DistanceSum = 1.0 * ElapsedTime / DIVIDE_CONSTANT;
-            i->_Distance += i->_DistanceSum;
-            i->_Pos.SetX(i->_Direction * floor(i->_Distance));
-            if (i->_Distance > 1)
-                i->_Distance = 0;
-        }
+            i->Move(ElapsedTime);
     }
 }
 
 //
-VehicleControl::VehicleControl(const int &level, const bool &b)
+Vehicle::Vehicle(const int &level, const bool &call_CreateObj)
 {
-    if (b)
-        VehicleControl::CreateObj();
-    DIVIDE_CONSTANT -= 70000 * sqrt(level);
+    if (call_CreateObj)
+        Vehicle::CreateObj();
+    Object::ChangeLevel(level);
 }
-VehicleControl::~VehicleControl()
+Vehicle::~Vehicle()
 {
     for (auto i : _CarLane)
         delete i;
@@ -94,62 +82,62 @@ VehicleControl::~VehicleControl()
         delete i;
 }
 //
-void VehicleControl::CreateObj()
+void Vehicle::CreateObj()
 {
     srand(time(NULL));
-    Vehicle *v;
+    Object *v;
     int _RandomDistance, NEW_LOCATION;
     //create 4 car obj with random distance
     //car1 car2 car3 car4
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         if (!i)
-            v = new Car(MAP_LOCATION._x + 2, MAP_LOCATION._y + CAR_LOCATION_Y);
+            v = new Car(MAP._x + 2, MAP._y + CAR_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 30 + 1;
+            _RandomDistance = rand() % 25 + 1;
             NEW_LOCATION = _CarLane[i - 1]->_Pos._x + CAR_LENGTH + _RandomDistance;
 
-            v = new Car(NEW_LOCATION, MAP_LOCATION._y + CAR_LOCATION_Y);
+            v = new Car(NEW_LOCATION, MAP._y + CAR_LOCATION_Y);
         }
         _CarLane.push_back(v);
     }
 
     //create 4 truck obj with random distance
     //truck4 truck3 truck2 truck1
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         if (!i)
-            v = new Truck(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + TRUCK_LOCATION_Y);
+            v = new Truck(MAP._x + Console::MAP_WIDTH - 1, MAP._y + TRUCK_LOCATION_Y);
         else
         {
-            _RandomDistance = rand() % 30 + 1;
+            _RandomDistance = rand() % 25 + 1;
             NEW_LOCATION = _TruckLane.front()->_Pos._x - TRUCK_LENGTH - _RandomDistance;
 
-            v = new Truck(NEW_LOCATION, MAP_LOCATION._y + TRUCK_LOCATION_Y);
+            v = new Truck(NEW_LOCATION, MAP._y + TRUCK_LOCATION_Y);
         }
         _TruckLane.push_front(v);
     }
 }
-void VehicleControl::Move(const int &ElapsedTime)
+void Vehicle::Move(const int &ElapsedTime)
 {
-    VehicleControl::CarMove(ElapsedTime);
-    VehicleControl::AddCar();
+    Vehicle::CarMove(ElapsedTime);
+    Vehicle::AddRandomCar();
 
-    VehicleControl::TruckMove(ElapsedTime);
-    VehicleControl::AddTruck();
+    Vehicle::TruckMove(ElapsedTime);
+    Vehicle::AddRandomTruck();
 }
 
 //
-void VehicleControl::AddCar()
+void Vehicle::AddRandomCar()
 {
     srand(time(NULL));
     if (_CarLane.front()->_Pos._x > rand() % 35 + CAR_LENGTH + 1)
-        _CarLane.push_front(new Car(MAP_LOCATION._x - 4, MAP_LOCATION._y + CAR_LOCATION_Y));
+        _CarLane.push_front(new Car(MAP._x - 4, MAP._y + CAR_LOCATION_Y));
 }
-void VehicleControl::AddTruck()
+void Vehicle::AddRandomTruck()
 {
     srand(time(NULL));
-    if (_TruckLane.back()->_Pos._x < MAP_LOCATION._x + Console::MAP_WIDTH - rand() % 35 - TRUCK_LENGTH - 1)
-        _TruckLane.push_back(new Truck(MAP_LOCATION._x + Console::MAP_WIDTH - 1, MAP_LOCATION._y + TRUCK_LOCATION_Y));
+    if (_TruckLane.back()->_Pos._x < MAP._x + WIDTH - rand() % 35 - TRUCK_LENGTH - 1)
+        _TruckLane.push_back(new Truck(MAP._x + WIDTH - 1, MAP._y + TRUCK_LOCATION_Y));
 }

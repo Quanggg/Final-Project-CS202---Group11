@@ -11,10 +11,12 @@
 #include <time.h>
 #include <conio.h>
 #include <io.h>
+#include <mmsystem.h>
 
 #include "coordinate.cpp"
 #include "console.cpp"
 #include "player.cpp"
+#include "object.cpp"
 #include "vehicle.cpp"
 #include "animal.cpp"
 #include "game.cpp"

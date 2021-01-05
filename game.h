@@ -9,18 +9,18 @@ public:
         _LevelUP = 0,
         _Light = 1,
         _OptionTime = 0,
-        _TrafficTime = 0,
-        _PlayerAllowToMove = 0;
+        _TrafficTime = 0;
 
     std::vector<std::string> WELCOME, GAMENAME, LOADMENU, SAVEMENU,
         OPTION, CONFIRM, LEVEL_UP;
     std::vector<std::string> NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6,
         NUM7, NUM8, NUM9;
     std::vector<std::vector<std::string>> NUM;
+    std::vector<std::string> CE1, CE2, CE3, CE4, CE5, CE6, CE7;
 
     Player _Player;
-    VehicleControl *_Vehicle = NULL;
-    AnimalControl *_Animal = NULL;
+    Vehicle *_Vehicle = NULL;
+    Animal *_Animal = NULL;
 
     const Coordinate OPTION_LOCATION = {100, 10},
                      CONFIRM_LOCATION = {115, 25},

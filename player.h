@@ -24,4 +24,5 @@ public:
     ~Player();
 
     void InputFromKeyboard(const int &ElapsedTime);
+    void ResetKeyboard();
 };

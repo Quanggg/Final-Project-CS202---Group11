@@ -1,39 +1,23 @@
 #pragma once
 #include "all.h"
 
-const Coordinate MAP_LOCATION(5, 2);
-
-class Vehicle
+class Car : public Object
 {
 public:
-    int _Direction;
-    float _Distance, _DistanceSum;
-
-    Coordinate _Pos;
-    std::vector<std::string> _STRING;
-    std::deque<Vehicle *> _Lane;
-
-    Vehicle();
-    virtual ~Vehicle();
-};
-
-class Car : public Vehicle
-{
-public:
-    Car();
+    // (x, y) is the first location of object when created
     Car(int x, int y);
     ~Car();
 };
 
-class Truck : public Vehicle
+class Truck : public Object
 {
 public:
-    Truck();
+    // (x, y) is the first location of object when created
     Truck(int x, int y);
     ~Truck();
 };
 
-class VehicleControl
+class Vehicle
 {
 private:
     const int CAR_LOCATION_Y = 26,
@@ -41,20 +25,24 @@ private:
               CAR_LENGTH = 13,
               TRUCK_LENGTH = 19;
 
-    int DIVIDE_CONSTANT = 1000000;
-
+    // change (x, y) of Car in _CarLane
     void CarMove(const int &ElapsedTime);
+    // change (x, y) of Truck in _TruckLane
     void TruckMove(const int &ElapsedTime);
 
 public:
-    std::deque<Vehicle *> _CarLane, _TruckLane;
+    std::deque<Object *> _CarLane, _TruckLane;
 
-    VehicleControl(const int &level, const bool &b = true);
-    ~VehicleControl();
+    // create object base on level
+    // call_CreateObj = false when load game from file, no need to create obj
+    Vehicle(const int &level, const bool &call_CreateObj = true);
+    ~Vehicle();
 
+    // create random 3 object
     void CreateObj();
     void Move(const int &ElapsedTime);
 
-    void AddCar();
-    void AddTruck();
+    // add object with random distance
+    void AddRandomCar();
+    void AddRandomTruck();
 };
