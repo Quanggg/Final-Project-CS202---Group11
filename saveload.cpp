@@ -33,11 +33,11 @@ std::vector<std::string> Game::getFilename(const std::string &name)
 void Game::loadGameMenu()
 {
     std::string filename;
-    std::vector<std::string> files = getFilename("data");
+    std::vector<std::string> files = getFilename("Data");
 
     if (files.size() == 0 && !isWelcome)
     {
-        Console::UpdateScreenOutput(110, 40, "NO SAVED FILES EXIST!");
+        Console::UpdateScreenOutput(114, 40, "NO SAVED FILES EXIST!");
         return;
     }
 
@@ -49,6 +49,18 @@ void Game::loadGameMenu()
     {
         Console::UpdateScreenOutput(67, 16, "NO SAVED FILES EXIST!");
         Console::UpdateScreenOutput(110, 40, "                     ");
+
+        while (true)
+        {
+            Console::PrintOutScreen();
+            if ((GetAsyncKeyState((unsigned short)VK_ESCAPE) & 0x8000)) //esc
+            {
+                Console::CleanScreenOutput();
+                if (isWelcome == true)
+                    Game::Welcome();
+                return;
+            }
+        }
     }
     else
     {
@@ -112,7 +124,7 @@ void Game::loadGameMenu()
 
 bool Game::loadGame(std::string file)
 {
-    std::ifstream f("./data/" + file);
+    std::ifstream f("./Data/" + file);
     if (!f.is_open())
         return false;
 
@@ -129,42 +141,41 @@ bool Game::loadGame(std::string file)
 
     delete _Vehicle;
     delete _Animal;
-    _Vehicle = new VehicleControl(Game::_Level, false);
-    _Animal = new AnimalControl(Game::_Level, false);
+    _Vehicle = new Vehicle(Game::_Level, false);
+    _Animal = new Animal(Game::_Level, false);
 
     int n, x, y;
-    Vehicle *v;
-    Animal *a;
+    Object *obj;
 
     f >> n;
     for (int i = 0; i < n; i++)
     {
         f >> x >> y;
-        v = new Car(x, y);
-        _Vehicle->_CarLane.push_back(v);
+        obj = new Car(x, y);
+        _Vehicle->_CarLane.push_back(obj);
     }
     f >> n;
     for (int i = 0; i < n; i++)
     {
         f >> x >> y;
-        v = new Truck(x, y);
-        _Vehicle->_TruckLane.push_back(v);
-    }
-    f >> n;
-    for (int i = 0; i < n; i++)
-    {
-        int x, y;
-        f >> x >> y;
-        a = new Bird(x, y);
-        _Animal->_BirdLane.push_back(a);
+        obj = new Truck(x, y);
+        _Vehicle->_TruckLane.push_back(obj);
     }
     f >> n;
     for (int i = 0; i < n; i++)
     {
         int x, y;
         f >> x >> y;
-        a = new Dinosaur(x, y);
-        _Animal->_DinosaurLane.push_back(a);
+        obj = new Bird(x, y);
+        _Animal->_BirdLane.push_back(obj);
+    }
+    f >> n;
+    for (int i = 0; i < n; i++)
+    {
+        int x, y;
+        f >> x >> y;
+        obj = new Dinosaur(x, y);
+        _Animal->_DinosaurLane.push_back(obj);
     }
     f.close();
     return true;
@@ -219,11 +230,11 @@ void Game::saveGameMenu()
 
 void Game::saveGame(std::string file)
 {
-    std::ofstream f("./data/" + file + ".txt");
+    std::ofstream f("./Data/" + file + ".txt");
     if (!f.is_open())
     {
-        mkdir("./data");
-        f.open("./data/" + file + ".txt");
+        mkdir("./Data");
+        f.open("./Data/" + file + ".txt");
     }
 
     f << _Level << '\n';

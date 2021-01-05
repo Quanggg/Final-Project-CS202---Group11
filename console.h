@@ -17,7 +17,7 @@ public:
                      MAP_HEIGHT = 36,
                      SCREEN_WIDTH = 1218,
                      SCREEN_HEIGHT = 700;
-    const Coordinate MAP_LOCATION = {5, 2};
+    static const Coordinate MAP_LOCATION;
 
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;

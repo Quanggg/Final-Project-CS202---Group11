@@ -62,3 +62,8 @@ void Player::InputFromKeyboard(const int &ElapsedTime)
     if (_Distance > 1)
         _Distance = 0;
 }
+
+void Player::ResetKeyboard()
+{
+    _W_Release = _S_Release = false;
+}

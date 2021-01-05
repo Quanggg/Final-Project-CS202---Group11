@@ -115,11 +115,6 @@ void Game::OptionControl()
 }
 void Game::PlayerControl()
 {
-	if (_PlayerAllowToMove && _PlayerAllowToMove < 2000)
-		_PlayerAllowToMove++;
-	else
-		_PlayerAllowToMove = 0;
-
 	//check _LevelUP != 0 to prevent show LEVELUP string at the beginning
 	if (_LevelUP && _LevelUP < 2000)
 	{
@@ -128,9 +123,6 @@ void Game::PlayerControl()
 	}
 	else
 	{
-		if (_PlayerAllowToMove && _PlayerAllowToMove < 2000)
-			return;
-
 		_Player.InputFromKeyboard(_ElapsedTime);
 		Console::UpdateScreenOutput(_Player._Pos, _Player._STRING, false, true);
 	}
@@ -157,10 +149,8 @@ void Game::Setup()
 	Game::InitTrafficLight();
 	Game::DrawOption(Game::_Level / 10, Game::_Level % 10);
 
-	_Vehicle = new VehicleControl(Game::_Level);
-	_Animal = new AnimalControl(Game::_Level);
-
-	_PlayerAllowToMove = 1;
+	_Vehicle = new Vehicle(Game::_Level);
+	_Animal = new Animal(Game::_Level);
 }
 void Game::LevelUp()
 {
@@ -175,23 +165,44 @@ void Game::LevelUp()
 }
 void Game::Crash()
 {
-	if (_Player._Pos._y >= 8 && _Player._Pos._y < 13) //bird crashing
-		PlaySound(TEXT("bird.wav"), NULL, SND_ASYNC);		
+	/*if (_Player._Pos._y >= 8 && _Player._Pos._y < 13) //bird crashing
+		PlaySound(TEXT("bird.wav"), NULL, SND_ASYNC);
 	else if (_Player._Pos._y >= 13 && _Player._Pos._y < 18) // truck crashing
 		PlaySound(TEXT("car.wav"), NULL, SND_ASYNC);
 	else if (_Player._Pos._y >= 18 && _Player._Pos._y < 24) //dinosaur crashing
 		PlaySound(TEXT("dinosaur.wav"), NULL, SND_ASYNC);
 	else if (_Player._Pos._y >= 24) //car crashing
-		PlaySound(TEXT("car.wav"), NULL, SND_ASYNC);
+		PlaySound(TEXT("car.wav"), NULL, SND_ASYNC);*/
+
+	int _TimeEffect = 0;
 
 	Console::UpdateScreenOutput(107, 31, "<Press SPACE BAR to restart level...>");
 	while (true)
 	{
+		_TimeEffect++;
 		if (GetAsyncKeyState(VK_SPACE) & 0x80000000)
 		{
 			Game::Setup();
 			break;
 		}
+
+		if (_TimeEffect < 200)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE1);
+		else if (_TimeEffect < 400)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE2);
+		else if (_TimeEffect < 600)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE3);
+		else if (_TimeEffect < 800)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE4);
+		else if (_TimeEffect < 1000)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE5);
+		else if (_TimeEffect < 1200)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE6);
+		else if (_TimeEffect < 1400)
+			Console::UpdateScreenOutput(_Player._Pos._x, _Player._Pos._y - 2, CE7);
+		else
+			_TimeEffect = 0;
+
 		Console::PrintOutScreen();
 	}
 	QueryPerformanceCounter(&_Time2);
@@ -229,7 +240,7 @@ void Game::OptionSelect()
 		if (ConfirmSelect())
 			exit(0);
 
-		Console::UpdateScreenOutput(118, 24, "      ");
+		Console::UpdateScreenOutput(118, 24, "       ");
 	}
 	if ((GetAsyncKeyState((unsigned short)'1') & 0x8000))
 	{
@@ -241,25 +252,25 @@ void Game::OptionSelect()
 			Game::Setup();
 		}
 
-		Console::UpdateScreenOutput(116, 24, "           ");
+		Console::UpdateScreenOutput(116, 24, "            ");
 	}
 	if ((GetAsyncKeyState((unsigned short)'2') & 0x8000))
 	{
-		Console::UpdateScreenOutput(116, 24, "-LOAD GAME-");
+		Console::UpdateScreenOutput(115, 24, "-LOAD GAME-");
 
 		if (ConfirmSelect())
 			Game::loadGameMenu();
 
-		Console::UpdateScreenOutput(116, 24, "           ");
+		Console::UpdateScreenOutput(115, 24, "            ");
 	}
 	if ((GetAsyncKeyState((unsigned short)'4') & 0x8000))
 	{
-		Console::UpdateScreenOutput(116, 24, "-SAVE GAME-");
+		Console::UpdateScreenOutput(115, 24, "-SAVE GAME-");
 
 		if (ConfirmSelect())
 			Game::saveGameMenu();
 
-		Console::UpdateScreenOutput(116, 24, "           ");
+		Console::UpdateScreenOutput(115, 24, "            ");
 	}
 	QueryPerformanceCounter(&_Time2);
 }
@@ -293,8 +304,9 @@ void Game::DrawOption(const int &x, const int &y)
 }
 void Game::InitPlayer()
 {
+	_Player.ResetKeyboard();
 	_Player._Pos._x = MAP_LOCATION._x + MAP_WIDTH / 2 - 1;
 	_Player._Pos._y = MAP_LOCATION._y + MAP_HEIGHT - 3;
-	_Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 3, MAP_LOCATION._y + MAP_HEIGHT - 3);
+	_Player._Pos.SetMax(MAP_LOCATION._x + MAP_WIDTH - 4, MAP_LOCATION._y + MAP_HEIGHT - 3);
 	_Player._Pos.SetMin(MAP_LOCATION._x + 1, MAP_LOCATION._y + 1);
 }

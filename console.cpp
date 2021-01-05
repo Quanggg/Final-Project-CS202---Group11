@@ -1,6 +1,8 @@
 #include "console.h"
 
 //
+const Coordinate Console::MAP_LOCATION = {5, 2};
+//
 void Console::InitMap()
 {
     MAP += " __________________________________________________________________________________________ ";
@@ -9,7 +11,7 @@ void Console::InitMap()
     MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
-    MAP += "|------------------------------------------------------------------------------------------|";
+    MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
     MAP += "|                                                                                          |";
@@ -199,7 +201,7 @@ void Console::UpdateScreenOutput(const Coordinate &pos, std::vector<std::string>
         if (_LevelUp)
         {
             PrintOutScreen();
-            Sleep(300);
+            Sleep(500);
             LevelUp();
         }
         else if (_Crash)
