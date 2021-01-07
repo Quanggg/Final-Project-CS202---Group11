@@ -1,6 +1,6 @@
 #include "all.h"
 
-main()
+int main()
 {
     Game G;
 
@@ -9,4 +9,6 @@ main()
 
     while (true)
         G.Processing();
+
+    return 0;
 }
