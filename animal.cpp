@@ -144,3 +144,24 @@ void Animal::AddRandomDinosaur()
     if (_DinosaurLane.back()->_Pos._x < MAP._x + WIDTH - rand() % 35 - DINOSAUR_LENGTH - 1)
         _DinosaurLane.push_back(new Dinosaur(MAP._x + WIDTH - 1, MAP._y + DINOSAUR_LOCATION_Y));
 }
+
+//
+void Animal::AddBird(Object *obj)
+{
+    _BirdLane.push_back(obj);
+}
+void Animal::AddDinosaur(Object *obj)
+{
+    _DinosaurLane.push_back(obj);
+}
+
+//
+void Animal::SaveAnimal(std::ofstream &f)
+{
+    f << _BirdLane.size() << '\n';
+    for (auto i : _BirdLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    f << _DinosaurLane.size() << '\n';
+    for (auto i : _DinosaurLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+}

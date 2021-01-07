@@ -141,3 +141,24 @@ void Vehicle::AddRandomTruck()
     if (_TruckLane.back()->_Pos._x < MAP._x + WIDTH - rand() % 35 - TRUCK_LENGTH - 1)
         _TruckLane.push_back(new Truck(MAP._x + WIDTH - 1, MAP._y + TRUCK_LOCATION_Y));
 }
+
+//
+void Vehicle::AddCar(Object *obj)
+{
+    _CarLane.push_back(obj);
+}
+void Vehicle::AddTruck(Object *obj)
+{
+    _TruckLane.push_back(obj);
+}
+
+//
+void Vehicle::SaveVehicle(std::ofstream &f)
+{
+    f << _CarLane.size() << '\n';
+    for (auto i : _CarLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    f << _TruckLane.size() << '\n';
+    for (auto i : _TruckLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+}

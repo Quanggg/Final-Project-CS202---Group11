@@ -47,4 +47,11 @@ public:
     // add object with random distance
     void AddRandomBird();
     void AddRandomDinosaur();
+
+    // push back obj to _BirdLane and _DinosaurLane
+    void AddBird(Object *obj);
+    void AddDinosaur(Object *obj);
+
+    // save coordinate to file
+    void SaveAnimal(std::ofstream &f);
 };

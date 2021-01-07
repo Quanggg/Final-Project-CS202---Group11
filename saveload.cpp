@@ -152,14 +152,14 @@ bool Game::loadGame(std::string file)
     {
         f >> x >> y;
         obj = new Car(x, y);
-        _Vehicle->_CarLane.push_back(obj);
+        _Vehicle->AddCar(obj);
     }
     f >> n;
     for (int i = 0; i < n; i++)
     {
         f >> x >> y;
         obj = new Truck(x, y);
-        _Vehicle->_TruckLane.push_back(obj);
+        _Vehicle->AddTruck(obj);
     }
     f >> n;
     for (int i = 0; i < n; i++)
@@ -167,7 +167,7 @@ bool Game::loadGame(std::string file)
         int x, y;
         f >> x >> y;
         obj = new Bird(x, y);
-        _Animal->_BirdLane.push_back(obj);
+        _Animal->AddBird(obj);
     }
     f >> n;
     for (int i = 0; i < n; i++)
@@ -175,7 +175,7 @@ bool Game::loadGame(std::string file)
         int x, y;
         f >> x >> y;
         obj = new Dinosaur(x, y);
-        _Animal->_DinosaurLane.push_back(obj);
+        _Animal->AddDinosaur(obj);
     }
     f.close();
     return true;
@@ -243,19 +243,9 @@ void Game::saveGame(std::string file)
     f << _Light << '\n';
     f << _TrafficTime << '\n';
 
-    f << _Vehicle->_CarLane.size() << '\n';
-    for (auto i : _Vehicle->_CarLane)
-        f << i->_Pos._x << " " << i->_Pos._y << '\n';
-    f << _Vehicle->_TruckLane.size() << '\n';
-    for (auto i : _Vehicle->_TruckLane)
-        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    _Vehicle->SaveVehicle(f);
 
-    f << _Animal->_BirdLane.size() << '\n';
-    for (auto i : _Animal->_BirdLane)
-        f << i->_Pos._x << " " << i->_Pos._y << '\n';
-    f << _Animal->_DinosaurLane.size() << '\n';
-    for (auto i : _Animal->_DinosaurLane)
-        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    _Animal->SaveAnimal(f);
 
     f.close();
 }
