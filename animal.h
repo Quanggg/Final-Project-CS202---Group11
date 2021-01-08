@@ -43,6 +43,9 @@ public:
     void AddRandomBird();
     void AddRandomDinosaur();
 
+    void AddBird(Object* obj);
+    void AddDinosaur(Object* obj);
+
     
 
 };

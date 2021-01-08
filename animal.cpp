@@ -128,5 +128,14 @@ void Animal::AddRandomDinosaur()
         _DinosaurLane.push_back(new Dinosaur(MAP._x + WIDTH - 1, MAP._y + DINOSAUR_LOCATION_Y));
 }
 
+void Animal::AddBird(Object* obj)
+{
+    _BirdLane.push_back(obj);
+}
+void Animal::AddDinosaur(Object* obj)
+{
+    _DinosaurLane.push_back(obj);
+}
+
 
 
