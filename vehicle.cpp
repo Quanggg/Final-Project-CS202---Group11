@@ -88,6 +88,7 @@ void Vehicle::CreateObj()
     srand(time(NULL));
     Object* v;
     int _RandomDistance, NEW_LOCATION;
+    
     //create 4 car obj with random distance
     //car1 car2 car3 car4
     for (int i = 0; i < 3; i++)
@@ -102,6 +103,22 @@ void Vehicle::CreateObj()
             v = new Car(NEW_LOCATION, MAP._y + CAR_LOCATION_Y);
         }
         _CarLane.push_back(v);
+    }
+
+    //create 4 truck obj with random distance
+    //truck4 truck3 truck2 truck1
+    for (int i = 0; i < 3; i++)
+    {
+        if (!i)
+            v = new Truck(MAP._x + Console::MAP_WIDTH - 1, MAP._y + TRUCK_LOCATION_Y);
+        else
+        {
+            _RandomDistance = rand() % 25 + 1;
+            NEW_LOCATION = _TruckLane.front()->_Pos._x - TRUCK_LENGTH - _RandomDistance;
+
+            v = new Truck(NEW_LOCATION, MAP._y + TRUCK_LOCATION_Y);
+        }
+        _TruckLane.push_front(v);
     }
 }
 void Vehicle::Move(const int& ElapsedTime)
