@@ -37,3 +37,18 @@ Truck::Truck(int x, int y)
     _STRING[4] = "\"-O----O-O`    O`O`";
 }
 Truck::~Truck() {}
+
+//
+void Vehicle::CarMove(const int& ElapsedTime)
+{
+    for (auto i : _CarLane)
+    {
+        if (i->_Pos._x == i->_Pos.max_x)
+        {
+            delete i;
+            _CarLane.pop_back();
+        }
+        else
+            i->Move(ElapsedTime);
+    }
+}
