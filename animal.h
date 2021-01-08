@@ -38,7 +38,9 @@ public:
     ~Animal();
 
     std::deque<Object*> _BirdLane, _DinosaurLane;
+
     void CreateObj();
+    void Move(const int& ElapsedTime);
 
     void AddRandomBird();
     void AddRandomDinosaur();
