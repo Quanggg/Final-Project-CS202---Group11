@@ -52,3 +52,17 @@ void Vehicle::CarMove(const int& ElapsedTime)
             i->Move(ElapsedTime);
     }
 }
+void Vehicle::TruckMove(const int& ElapsedTime)
+{
+    int k = 0;
+    for (auto i : _TruckLane)
+    {
+        if (i->_Pos._x == i->_Pos.min_x)
+        {
+            delete i;
+            _TruckLane.pop_front();
+        }
+        else
+            i->Move(ElapsedTime);
+    }
+}
