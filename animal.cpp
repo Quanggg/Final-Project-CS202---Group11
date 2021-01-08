@@ -36,5 +36,5 @@ Dinosaur::Dinosaur(int x, int y)
     _STRING[4] = "    |  ) |  ) \\_";
     _STRING[5] = "    |_|--|_|'-._\\";
 }
-Dinosaur::~Dinosaur() {}
+
 
