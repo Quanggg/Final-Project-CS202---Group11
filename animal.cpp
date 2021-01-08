@@ -84,8 +84,9 @@ void Animal::DinosaurMove(const int& ElapsedTime)
 
 void Animal::CreateObj()
 {
+    srand(time(NULL));
     Object* v;
-    int _RandomDistance;
+    int _RandomDistance, NEW_LOCATION;
     //create 4 Bird obj with random distance
     //Bird1 Bird2 Bird3 Bird4
     for (int i = 0; i < 3; i++)
@@ -95,7 +96,9 @@ void Animal::CreateObj()
         else
         {
             _RandomDistance = rand() % 25 + 1;
-            v = new Bird(MAP._y + BIRD_LOCATION_Y);
+            NEW_LOCATION = _BirdLane[i - 1]->_Pos._x + BIRD_LENGTH + _RandomDistance;
+
+            v = new Bird(NEW_LOCATION, MAP._y + BIRD_LOCATION_Y);
         }
         _BirdLane.push_back(v);
     }
@@ -109,7 +112,9 @@ void Animal::CreateObj()
         else
         {
             _RandomDistance = rand() % 25 + 1;
-            v = new Dinosaur(MAP._y + DINOSAUR_LOCATION_Y);
+            NEW_LOCATION = _DinosaurLane.front()->_Pos._x - DINOSAUR_LENGTH - _RandomDistance;
+
+            v = new Dinosaur(NEW_LOCATION, MAP._y + DINOSAUR_LOCATION_Y);
         }
         _DinosaurLane.push_front(v);
     }
@@ -144,6 +149,16 @@ void Animal::AddBird(Object* obj)
 void Animal::AddDinosaur(Object* obj)
 {
     _DinosaurLane.push_back(obj);
+}
+
+void Animal::SaveAnimal(std::ofstream& f)
+{
+    f << _BirdLane.size() << '\n';
+    for (auto i : _BirdLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    f << _DinosaurLane.size() << '\n';
+    for (auto i : _DinosaurLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
 }
 
 
