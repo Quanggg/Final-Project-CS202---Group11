@@ -129,3 +129,27 @@ void Vehicle::Move(const int& ElapsedTime)
     Vehicle::TruckMove(ElapsedTime);
     Vehicle::AddRandomTruck();
 }
+
+//
+void Vehicle::AddRandomCar()
+{
+    srand(time(NULL));
+    if (_CarLane.front()->_Pos._x > rand() % 35 + CAR_LENGTH + 1)
+        _CarLane.push_front(new Car(MAP._x - 4, MAP._y + CAR_LOCATION_Y));
+}
+void Vehicle::AddRandomTruck()
+{
+    srand(time(NULL));
+    if (_TruckLane.back()->_Pos._x < MAP._x + WIDTH - rand() % 35 - TRUCK_LENGTH - 1)
+        _TruckLane.push_back(new Truck(MAP._x + WIDTH - 1, MAP._y + TRUCK_LOCATION_Y));
+}
+
+//
+void Vehicle::AddCar(Object* obj)
+{
+    _CarLane.push_back(obj);
+}
+void Vehicle::AddTruck(Object* obj)
+{
+    _TruckLane.push_back(obj);
+}

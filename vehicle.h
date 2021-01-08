@@ -45,4 +45,8 @@ public:
     // add object with random distance
     void AddRandomCar();
     void AddRandomTruck();
+
+    // push back obj to _CarLane and _TruckLane
+    void AddCar(Object* obj);
+    void AddTruck(Object* obj);
 };
