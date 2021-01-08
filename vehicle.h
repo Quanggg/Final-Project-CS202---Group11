@@ -29,4 +29,13 @@ private:
     void CarMove(const int& ElapsedTime);
     // change (x, y) of Truck in _TruckLane
     void TruckMove(const int& ElapsedTime);
+
+public:
+    std::deque<Object*> _CarLane, _TruckLane;
+
+    // create object base on level
+    // call_CreateObj = false when load game from file, no need to create obj
+    Vehicle(const int& level, const bool& call_CreateObj = true);
+    ~Vehicle();
+    void CreateObj();
 };

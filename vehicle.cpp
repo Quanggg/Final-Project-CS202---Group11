@@ -66,3 +66,18 @@ void Vehicle::TruckMove(const int& ElapsedTime)
             i->Move(ElapsedTime);
     }
 }
+
+//
+Vehicle::Vehicle(const int& level, const bool& call_CreateObj)
+{
+    if (call_CreateObj)
+        Vehicle::CreateObj();
+    Object::ChangeLevel(level);
+}
+Vehicle::~Vehicle()
+{
+    for (auto i : _CarLane)
+        delete i;
+    for (auto i : _TruckLane)
+        delete i;
+}
