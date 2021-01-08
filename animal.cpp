@@ -115,5 +115,18 @@ void Animal::CreateObj()
     }
 }
 
+void Animal::AddRandomBird()
+{
+    srand(time(NULL));
+    if (_BirdLane.front()->_Pos._x > rand() % 35 + BIRD_LENGTH + 1)
+        _BirdLane.push_front(new Bird(MAP._x - 4, MAP._y + BIRD_LOCATION_Y));
+}
+void Animal::AddRandomDinosaur()
+{
+    srand(time(NULL));
+    if (_DinosaurLane.back()->_Pos._x < MAP._x + WIDTH - rand() % 35 - DINOSAUR_LENGTH - 1)
+        _DinosaurLane.push_back(new Dinosaur(MAP._x + WIDTH - 1, MAP._y + DINOSAUR_LOCATION_Y));
+}
+
 
 

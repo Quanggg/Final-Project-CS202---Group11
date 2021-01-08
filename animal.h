@@ -32,8 +32,18 @@ private:
     // change (x, y) of Dinosaur in _DinosaurLane
     void DinosaurMove(const int& ElapsedTime);
 public:
+    // create object base on level
+    // call_CreateObj = false when load game from file, no need to create obj
+    Animal(const int& level, const bool& call_CreateObj = true);
+    ~Animal();
+
     std::deque<Object*> _BirdLane, _DinosaurLane;
     void CreateObj();
+
+    void AddRandomBird();
+    void AddRandomDinosaur();
+
+    
 
 };
 
