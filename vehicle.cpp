@@ -153,3 +153,14 @@ void Vehicle::AddTruck(Object* obj)
 {
     _TruckLane.push_back(obj);
 }
+
+//
+void Vehicle::SaveVehicle(std::ofstream& f)
+{
+    f << _CarLane.size() << '\n';
+    for (auto i : _CarLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+    f << _TruckLane.size() << '\n';
+    for (auto i : _TruckLane)
+        f << i->_Pos._x << " " << i->_Pos._y << '\n';
+}
