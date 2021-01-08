@@ -33,6 +33,7 @@ private:
     void DinosaurMove(const int& ElapsedTime);
 public:
     std::deque<Object*> _BirdLane, _DinosaurLane;
+    void CreateObj();
 
 };
 
