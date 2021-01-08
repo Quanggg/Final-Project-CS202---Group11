@@ -44,8 +44,11 @@ void Animal::BirdMove(const int& ElapsedTime)
     {
         if (i->_Pos._x == i->_Pos.max_x)
         {
+            delete i;
             _BirdLane.pop_back();
         }
+        else
+            i->Move(ElapsedTime);
     }
 }
 void Animal::DinosaurMove(const int& ElapsedTime)
@@ -55,8 +58,11 @@ void Animal::DinosaurMove(const int& ElapsedTime)
     {
         if (i->_Pos._x == i->_Pos.min_x)
         {
+            delete i;
             _DinosaurLane.pop_front();
         }
+        else
+            i->Move(ElapsedTime);
     }
 }
 
