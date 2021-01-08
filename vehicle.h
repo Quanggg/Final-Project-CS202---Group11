@@ -49,4 +49,7 @@ public:
     // push back obj to _CarLane and _TruckLane
     void AddCar(Object* obj);
     void AddTruck(Object* obj);
+
+    // save coordinate to file
+    void SaveVehicle(std::ofstream& f);
 };
