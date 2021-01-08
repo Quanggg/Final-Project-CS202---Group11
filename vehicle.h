@@ -16,3 +16,17 @@ public:
     Truck(int x, int y);
     ~Truck();
 };
+
+class Vehicle
+{
+private:
+    const int CAR_LOCATION_Y = 26,
+        TRUCK_LOCATION_Y = 13,
+        CAR_LENGTH = 13,
+        TRUCK_LENGTH = 19;
+
+    // change (x, y) of Car in _CarLane
+    void CarMove(const int& ElapsedTime);
+    // change (x, y) of Truck in _TruckLane
+    void TruckMove(const int& ElapsedTime);
+};
