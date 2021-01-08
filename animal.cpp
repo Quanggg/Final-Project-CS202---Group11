@@ -66,6 +66,38 @@ void Animal::DinosaurMove(const int& ElapsedTime)
     }
 }
 
+void Animal::CreateObj()
+{
+    Object* v;
+    int _RandomDistance;
+    //create 4 Bird obj with random distance
+    //Bird1 Bird2 Bird3 Bird4
+    for (int i = 0; i < 3; i++)
+    {
+        if (!i)
+            v = new Bird(MAP._x + 2, MAP._y + BIRD_LOCATION_Y);
+        else
+        {
+            _RandomDistance = rand() % 25 + 1;
+            v = new Bird(MAP._y + BIRD_LOCATION_Y);
+        }
+        _BirdLane.push_back(v);
+    }
+
+    //create 4 Dinosaur obj with random distance
+    //Dinosaur4 Dinosaur3 Dinosaur2 Dinosaur1
+    for (int i = 0; i < 3; i++)
+    {
+        if (!i)
+            v = new Dinosaur(MAP._x + WIDTH - 1, MAP._y + DINOSAUR_LOCATION_Y);
+        else
+        {
+            _RandomDistance = rand() % 25 + 1;
+            v = new Dinosaur(MAP._y + DINOSAUR_LOCATION_Y);
+        }
+        _DinosaurLane.push_front(v);
+    }
+}
 
 
 
