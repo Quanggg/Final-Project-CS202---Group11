@@ -115,6 +115,15 @@ void Animal::CreateObj()
     }
 }
 
+void Animal::Move(const int& ElapsedTime)
+{
+    Animal::BirdMove(ElapsedTime);
+    Animal::AddRandomBird();
+
+    Animal::DinosaurMove(ElapsedTime);
+    Animal::AddRandomDinosaur();
+}
+
 void Animal::AddRandomBird()
 {
     srand(time(NULL));
