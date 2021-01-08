@@ -19,39 +19,3 @@ public:
     ~Dinosaur();
 };
 
-class Animal
-{
-private:
-    const int BIRD_LOCATION_Y = 7,
-              DINOSAUR_LOCATION_Y = 18,
-              BIRD_LENGTH = 5,
-              DINOSAUR_LENGTH = 17;
-
-    // change (x, y) of Bird in _BirdLane
-    void BirdMove(const int &ElapsedTime);
-    // change (x, y) of Dinosaur in _DinosaurLane
-    void DinosaurMove(const int &ElapsedTime);
-
-public:
-    std::deque<Object *> _BirdLane, _DinosaurLane;
-
-    // create object base on level
-    // call_CreateObj = false when load game from file, no need to create obj
-    Animal(const int &level, const bool &call_CreateObj = true);
-    ~Animal();
-
-    // create random 3 object
-    void CreateObj();
-    void Move(const int &ElapsedTime);
-
-    // add object with random distance
-    void AddRandomBird();
-    void AddRandomDinosaur();
-
-    // push back obj to _BirdLane and _DinosaurLane
-    void AddBird(Object *obj);
-    void AddDinosaur(Object *obj);
-
-    // save coordinate to file
-    void SaveAnimal(std::ofstream &f);
-};
