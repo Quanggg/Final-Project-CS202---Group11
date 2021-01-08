@@ -19,3 +19,20 @@ public:
     ~Dinosaur();
 };
 
+class Animal
+{
+private:
+    const int BIRD_LOCATION_Y = 7,
+        DINOSAUR_LOCATION_Y = 18,
+        BIRD_LENGTH = 5,
+        DINOSAUR_LENGTH = 17;
+
+    // change (x, y) of Bird in _BirdLane
+    void BirdMove(const int& ElapsedTime);
+    // change (x, y) of Dinosaur in _DinosaurLane
+    void DinosaurMove(const int& ElapsedTime);
+public:
+    std::deque<Object*> _BirdLane, _DinosaurLane;
+
+};
+

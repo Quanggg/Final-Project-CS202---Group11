@@ -36,5 +36,30 @@ Dinosaur::Dinosaur(int x, int y)
     _STRING[4] = "    |  ) |  ) \\_";
     _STRING[5] = "    |_|--|_|'-._\\";
 }
+Dinosaur::~Dinosaur() {}
+
+void Animal::BirdMove(const int& ElapsedTime)
+{
+    for (auto i : _BirdLane)
+    {
+        if (i->_Pos._x == i->_Pos.max_x)
+        {
+            _BirdLane.pop_back();
+        }
+    }
+}
+void Animal::DinosaurMove(const int& ElapsedTime)
+{
+    int k = 0;
+    for (auto i : _DinosaurLane)
+    {
+        if (i->_Pos._x == i->_Pos.min_x)
+        {
+            _DinosaurLane.pop_front();
+        }
+    }
+}
+
+
 
 
