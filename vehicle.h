@@ -37,5 +37,12 @@ public:
     // call_CreateObj = false when load game from file, no need to create obj
     Vehicle(const int& level, const bool& call_CreateObj = true);
     ~Vehicle();
+    
+    // create random 3 object
     void CreateObj();
+    void Move(const int& ElapsedTime);
+
+    // add object with random distance
+    void AddRandomCar();
+    void AddRandomTruck();
 };

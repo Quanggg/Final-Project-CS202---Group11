@@ -81,3 +81,13 @@ Vehicle::~Vehicle()
     for (auto i : _TruckLane)
         delete i;
 }
+
+//
+void Vehicle::Move(const int& ElapsedTime)
+{
+    Vehicle::CarMove(ElapsedTime);
+    Vehicle::AddRandomCar();
+
+    Vehicle::TruckMove(ElapsedTime);
+    Vehicle::AddRandomTruck();
+}
