@@ -51,6 +51,22 @@ void Animal::BirdMove(const int& ElapsedTime)
             i->Move(ElapsedTime);
     }
 }
+
+Animal::Animal(const int& level, const bool& call_CreateObj)
+{
+    if (call_CreateObj)
+        Animal::CreateObj();
+    Object::ChangeLevel(level);
+}
+Animal::~Animal()
+{
+    for (auto i : _BirdLane)
+        delete i;
+
+    for (auto i : _DinosaurLane)
+        delete i;
+}
+
 void Animal::DinosaurMove(const int& ElapsedTime)
 {
     int k = 0;
