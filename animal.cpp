@@ -38,7 +38,7 @@ Dinosaur::Dinosaur(int x, int y)
 }
 Dinosaur::~Dinosaur() {}
 
-void Animal::BirdMove(const int& ElapsedTime)
+void Animal::BirdMove(const int &ElapsedTime)
 {
     for (auto i : _BirdLane)
     {
@@ -52,7 +52,7 @@ void Animal::BirdMove(const int& ElapsedTime)
     }
 }
 
-Animal::Animal(const int& level, const bool& call_CreateObj)
+Animal::Animal(const int &level, const bool &call_CreateObj)
 {
     if (call_CreateObj)
         Animal::CreateObj();
@@ -67,7 +67,7 @@ Animal::~Animal()
         delete i;
 }
 
-void Animal::DinosaurMove(const int& ElapsedTime)
+void Animal::DinosaurMove(const int &ElapsedTime)
 {
     int k = 0;
     for (auto i : _DinosaurLane)
@@ -85,7 +85,7 @@ void Animal::DinosaurMove(const int& ElapsedTime)
 void Animal::CreateObj()
 {
     srand(time(NULL));
-    Object* v;
+    Object *v;
     int _RandomDistance, NEW_LOCATION;
     //create 4 Bird obj with random distance
     //Bird1 Bird2 Bird3 Bird4
@@ -96,7 +96,7 @@ void Animal::CreateObj()
         else
         {
             _RandomDistance = rand() % 25 + 1;
-            NEW_LOCATION = _BirdLane[i - 1]->_Pos._x + BIRD_LENGTH + _RandomDistance;
+            NEW_LOCATION = _BirdLane.back()->_Pos._x + BIRD_LENGTH + _RandomDistance;
 
             v = new Bird(NEW_LOCATION, MAP._y + BIRD_LOCATION_Y);
         }
@@ -120,7 +120,7 @@ void Animal::CreateObj()
     }
 }
 
-void Animal::Move(const int& ElapsedTime)
+void Animal::Move(const int &ElapsedTime)
 {
     Animal::BirdMove(ElapsedTime);
     Animal::AddRandomBird();
@@ -142,16 +142,16 @@ void Animal::AddRandomDinosaur()
         _DinosaurLane.push_back(new Dinosaur(MAP._x + WIDTH - 1, MAP._y + DINOSAUR_LOCATION_Y));
 }
 
-void Animal::AddBird(Object* obj)
+void Animal::AddBird(Object *obj)
 {
     _BirdLane.push_back(obj);
 }
-void Animal::AddDinosaur(Object* obj)
+void Animal::AddDinosaur(Object *obj)
 {
     _DinosaurLane.push_back(obj);
 }
 
-void Animal::SaveAnimal(std::ofstream& f)
+void Animal::SaveAnimal(std::ofstream &f)
 {
     f << _BirdLane.size() << '\n';
     for (auto i : _BirdLane)
@@ -160,6 +160,3 @@ void Animal::SaveAnimal(std::ofstream& f)
     for (auto i : _DinosaurLane)
         f << i->_Pos._x << " " << i->_Pos._y << '\n';
 }
-
-
-

@@ -9,7 +9,7 @@
 Car::Car(int x, int y)
 {
     _Direction = 1;
-    _Pos = { x, y };
+    _Pos = {x, y};
     _Pos.SetMax(MAP._x + WIDTH - 1, MAP._y + HEIGHT - 1);
     _Pos.SetMin(MAP._x - 4, MAP._y + 1);
 
@@ -25,7 +25,7 @@ Car::~Car() {}
 Truck::Truck(int x, int y)
 {
     _Direction = -1;
-    _Pos = { x, y };
+    _Pos = {x, y};
     _Pos.SetMax(MAP._x + WIDTH - 1, MAP._y + HEIGHT - 1);
     _Pos.SetMin(MAP._x - 18, MAP._y + 1);
 
@@ -39,7 +39,7 @@ Truck::Truck(int x, int y)
 Truck::~Truck() {}
 
 //
-void Vehicle::CarMove(const int& ElapsedTime)
+void Vehicle::CarMove(const int &ElapsedTime)
 {
     for (auto i : _CarLane)
     {
@@ -52,7 +52,7 @@ void Vehicle::CarMove(const int& ElapsedTime)
             i->Move(ElapsedTime);
     }
 }
-void Vehicle::TruckMove(const int& ElapsedTime)
+void Vehicle::TruckMove(const int &ElapsedTime)
 {
     int k = 0;
     for (auto i : _TruckLane)
@@ -68,7 +68,7 @@ void Vehicle::TruckMove(const int& ElapsedTime)
 }
 
 //
-Vehicle::Vehicle(const int& level, const bool& call_CreateObj)
+Vehicle::Vehicle(const int &level, const bool &call_CreateObj)
 {
     if (call_CreateObj)
         Vehicle::CreateObj();
@@ -86,9 +86,9 @@ Vehicle::~Vehicle()
 void Vehicle::CreateObj()
 {
     srand(time(NULL));
-    Object* v;
+    Object *v;
     int _RandomDistance, NEW_LOCATION;
-    
+
     //create 4 car obj with random distance
     //car1 car2 car3 car4
     for (int i = 0; i < 3; i++)
@@ -98,7 +98,7 @@ void Vehicle::CreateObj()
         else
         {
             _RandomDistance = rand() % 25 + 1;
-            NEW_LOCATION = _CarLane[i - 1]->_Pos._x + CAR_LENGTH + _RandomDistance;
+            NEW_LOCATION = _CarLane.back()->_Pos._x + CAR_LENGTH + _RandomDistance;
 
             v = new Car(NEW_LOCATION, MAP._y + CAR_LOCATION_Y);
         }
@@ -121,7 +121,7 @@ void Vehicle::CreateObj()
         _TruckLane.push_front(v);
     }
 }
-void Vehicle::Move(const int& ElapsedTime)
+void Vehicle::Move(const int &ElapsedTime)
 {
     Vehicle::CarMove(ElapsedTime);
     Vehicle::AddRandomCar();
@@ -145,17 +145,17 @@ void Vehicle::AddRandomTruck()
 }
 
 //
-void Vehicle::AddCar(Object* obj)
+void Vehicle::AddCar(Object *obj)
 {
     _CarLane.push_back(obj);
 }
-void Vehicle::AddTruck(Object* obj)
+void Vehicle::AddTruck(Object *obj)
 {
     _TruckLane.push_back(obj);
 }
 
 //
-void Vehicle::SaveVehicle(std::ofstream& f)
+void Vehicle::SaveVehicle(std::ofstream &f)
 {
     f << _CarLane.size() << '\n';
     for (auto i : _CarLane)

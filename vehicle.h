@@ -4,7 +4,6 @@
 class Car : public Object
 {
 public:
-    // (x, y) is the first location of object when created
     Car(int x, int y);
     ~Car();
 };
@@ -12,7 +11,6 @@ public:
 class Truck : public Object
 {
 public:
-    // (x, y) is the first location of object when created
     Truck(int x, int y);
     ~Truck();
 };
@@ -21,35 +19,27 @@ class Vehicle
 {
 private:
     const int CAR_LOCATION_Y = 26,
-        TRUCK_LOCATION_Y = 13,
-        CAR_LENGTH = 13,
-        TRUCK_LENGTH = 19;
+              TRUCK_LOCATION_Y = 13,
+              CAR_LENGTH = 13,
+              TRUCK_LENGTH = 19;
 
-    // change (x, y) of Car in _CarLane
-    void CarMove(const int& ElapsedTime);
-    // change (x, y) of Truck in _TruckLane
-    void TruckMove(const int& ElapsedTime);
+    void CarMove(const int &ElapsedTime);
+    void TruckMove(const int &ElapsedTime);
 
 public:
-    std::deque<Object*> _CarLane, _TruckLane;
+    std::deque<Object *> _CarLane, _TruckLane;
 
-    // create object base on level
-    // call_CreateObj = false when load game from file, no need to create obj
-    Vehicle(const int& level, const bool& call_CreateObj = true);
+    Vehicle(const int &level, const bool &call_CreateObj = true);
     ~Vehicle();
-    
-    // create random 3 object
-    void CreateObj();
-    void Move(const int& ElapsedTime);
 
-    // add object with random distance
+    void CreateObj();
+    void Move(const int &ElapsedTime);
+
     void AddRandomCar();
     void AddRandomTruck();
 
-    // push back obj to _CarLane and _TruckLane
-    void AddCar(Object* obj);
-    void AddTruck(Object* obj);
+    void AddCar(Object *obj);
+    void AddTruck(Object *obj);
 
-    // save coordinate to file
-    void SaveVehicle(std::ofstream& f);
+    void SaveVehicle(std::ofstream &f);
 };
